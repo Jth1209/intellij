@@ -36,8 +36,8 @@ public class ListArticleService {
 
         int totalPageCount = calculateTotalPageCount(totalArticleCount);
 
-        int firstRow = (requestPageNumber - 1) * COUNT_PER_PAGE;
-        int endRow = firstRow + COUNT_PER_PAGE -1;
+        int firstRow = (requestPageNumber - 1) * COUNT_PER_PAGE;//페이지의 첫번째 칼럼을 가져오기 위해서는 0 부터 5개씩 짤라야 한다. 그래서 firstRow를 0
+        int endRow = firstRow + COUNT_PER_PAGE;//endRow를 5로 나오게끔 설정 이후 5가 넘어가면 
 
         if (endRow > totalArticleCount) {
             endRow = totalArticleCount;
