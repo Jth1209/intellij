@@ -5,6 +5,7 @@ import org.hibernate.annotations.SQLInsert;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.Date;
@@ -26,5 +27,5 @@ public interface BoardRepository extends JpaRepository <Board, Integer> {
     @Modifying
     @Transactional
     @Query("update Board b set b.title = :title , b.contents = :content , b.updatedDatetime = :date , b.updaterId = 'admin' where b.boardIdx = :boardIdx")
-    void updateBoard(String title, String content, Date date, int boardIdx);
+    void updateBoard(@Param("title")String title, @Param("content")String content, @Param("date")Date date, @Param("boardIdx")int boardIdx);
 }

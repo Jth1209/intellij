@@ -24,7 +24,7 @@ public class BoardController {
 
     @GetMapping("/")
     public String index() {
-        return "redirect:/board/openBoardList.do";
+        return "redirect:/user/index";
     }
 
     @GetMapping("/board/openBoardList.do")
