@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>설문조사</title>
+    <link rel="stylesheet" href="/css/myInfo.css">
+</head>
+<body>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>설문조사</h2>
+        </div>
+        <!-- 메뉴 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/info/staff" class="selected--menu">설문조사 참여하기</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 메인 div  ** 이거 통계 보여주는 view도 만들어야 함-->
+    <main>
+        <h1>설문조사: 서비스 만족도</h1>
+        <div class="split--div"></div>
+        <form th:action="@{/submitted.do}" method="post" class="survey-form">
+
+            <!-- 설문 항목 1 -->
+            <div th:each="q, stat : ${questions}" class="survey-item">
+                <label th:text="${stat.index + 1} + '. ' + ${q.title}"></label>
+
+                <div th:if="${q.choice}" class="survey-options">
+                    <div th:each="option : ${q.options}">
+                        <label>
+                            <input type="radio" th:name="'responses[' + ${stat.index} + ']'" th:value="${option}"
+                                   required/>
+                            <span th:text="${option}"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 텍스트 입력이 필요한 질문 -->
+                <div th:if="${!q.choice}">
+                    <input type="text" th:name="'responses[' + ${stat.index} + ']'"/>
+                </div>
+            </div>
+
+            <!-- 응답자 위치 및 나이 입력 -->
+            <p>
+                <label>응답자 위치:<br>
+                    <input type="text" name="res.location"/>
+                </label>
+            </p>
+            <p>
+                <label>응답자 나이:<br>
+                    <input type="text" name="res.age"/>
+                </label>
+            </p>
+
+            <!-- 제출 버튼 -->
+            <input type="submit" value="전송" class="btn btn-dark submit-btn"/>
+        </form>
+    </main>
+
+</div>
+
+<footer>
+    <!-- 필요 시 -->
+</footer>
+</body>
+</html>

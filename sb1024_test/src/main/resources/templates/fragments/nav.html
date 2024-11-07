@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="fragment-nav">
+        <header class="d-flex flex-column">
+            <div class="header--top">
+                <ul th:if="${#lists.isEmpty(session.authInfo)}">
+                    <li class="material--li"><span class="material-symbols-outlined">account_circle</span>
+                    <li>로그인을 진행해주세요
+                    <li style="margin: 0 15px;">ㅣ
+                    <li class="material--li"><span style="color: #9BD2EC;" class="material-symbols-outlined">logout</span>
+                    <li><a href="/login">로그인</a>
+                </ul>
+                <ul th:if="${!#lists.isEmpty(session.authInfo)}">
+                    <li class="material--li"><span class="material-symbols-outlined">account_circle</span>
+                    <li th:text="${session.authInfo.getName()}+'님'">
+                    <li style="margin: 0 15px;">ㅣ
+                    <li class="material--li"><span style="color: #9BD2EC;" class="material-symbols-outlined">logout</span>
+                    <li><a href="/logout">로그아웃</a>
+                </ul>
+            </div>
+
+            <nav class="main--menu">
+                <a href="/"><img class="logo" alt="" src="/static/images2/logo.png"></a>
+                <!-- userRole에 따라 메뉴 다르게 표시 -->
+                <ul>
+                    <li><a th:href="@{/}">홈</a>
+                    <li><a th:href="@{/myinfo}">MY</a>
+                    <li><a th:href="@{/board/openBoardList.do}">게시판</a>
+                    <li><a th:href="@{/survey.do}">설문조사</a>
+                    <li><a href="/orders">물품 신청</a>
+                </ul>
+            </nav>
+        </header>
+    </div>
+</html>

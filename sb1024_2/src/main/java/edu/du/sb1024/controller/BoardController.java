@@ -6,6 +6,10 @@ import edu.du.sb1024.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,15 +37,26 @@ public class BoardController {
 //	private final AuthenticationConfiguration authenticationConfiguration;
 
 	@RequestMapping("/board/openBoardList.do")
-	public ModelAndView openBoardList() throws Exception{
+	public String openBoardList(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) throws Exception{
 		log.info("====> openBoardList {}", "테스트");
-		ModelAndView mv = new ModelAndView("/board/boardList");
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		List<BoardDto> list = boardService.selectBoardList();
+
+//		List<Board> list = boardRepository.findAllByOrderByBoardIdxDesc();
 		List<BoardDto> list = boardService.selectBoardList();
-		mv.addObject("list", list);
-		return mv;
+		// 페이지 정보에 따라 현재 페이지의 시작 인덱스를 계산
+		final int start = (int) pageable.getOffset();
+		// 현재 페이지의 끝 인덱스를 계산하되, 목록 크기를 초과하지 않도록 함
+		final int end = Math.min((start + pageable.getPageSize()), list.size());
+		// 현재 페이지의 아이템 서브리스트를 포함하는 Page 객체 생성
+		final Page<BoardDto> page = new PageImpl<>(list.subList(start, end), pageable, list.size());
+		// 페이지 객체를 모델에 추가하여 뷰에서 접근 가능하도록 함
+		model.addAttribute("list", page);
+//		model.addAttribute("list", list);
+		// 게시물 목록을 표시할 뷰 이름 반환
+		return "board/boardList";
 	}
-	
+
+
 	@RequestMapping("/board/openBoardWrite.do")
 	public String openBoardWrite() throws Exception{
 		return "/board/boardWrite";

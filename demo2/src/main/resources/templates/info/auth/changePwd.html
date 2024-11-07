@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<link rel="stylesheet" href="/css/myInfo.css">
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>로그인</h2>
+        </div>
+        <!-- 메뉴 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/info/staff">내 정보 조회</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/password">비밀번호 변경</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 메인 div -->
+    <main>
+        <h1>비밀번호 변경</h1>
+        <div class="split--div"></div>
+        <form action="/change" method="post">
+            <table border="1" class="input--table">
+                <tr>
+                    <th>기존 비밀번호</th>
+                    <td><input type="text" name="id" required></td>
+                </tr>
+                <tr>
+                    <th>새 비밀번호</th>
+                    <td><input type="password" name="password" required></td>
+                </tr>
+            </table>
+            <button type="submit" class="btn btn-dark login--button">변경</button>
+        </form>
+    </main>
+</div>
+
+
+
+
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

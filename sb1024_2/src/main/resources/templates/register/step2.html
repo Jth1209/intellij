@@ -11,26 +11,34 @@
 <h2>회원 정보 입력</h2>
 <form th:action="@{/register/step3}" th:object="${registerRequest}" method="post">
   <p>
-    <label>이메일:<br>
+    <label>
+      <span>Email</span>:<br>
       <input type="text" th:field="*{email}" />
+      <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
     </label>
   </p>
   <p>
-    <label>이름:<br>
+    <label>
+      <span>Name</span>:<br>
       <input type="text" th:field="*{name}" />
+      <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     </label>
   </p>
   <p>
-    <label>비밀번호:<br>
+    <label>
+      <span>Password</span>:<br>
       <input type="password" th:field="*{password}" />
+      <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
     </label>
   </p>
   <p>
-    <label>비밀번호 확인:<br>
+    <label>
+      <span>Confirm Password</span>:<br>
       <input type="password" th:field="*{confirmPassword}" />
+      <div th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
     </label>
   </p>
-  <input type="submit" value="가입 완료">
+  <input type="submit" th:value="제출" />
 </form>
 </body>
 </div>

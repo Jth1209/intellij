@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>설문조사</title>
+  <link rel="stylesheet" href="/css/myInfo.css">
+</head>
+<body>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+  <!-- 세부 메뉴 div-->
+  <div class="sub--menu">
+    <div class="sub--menu--top">
+      <h2>설문조사</h2>
+    </div>
+    <!-- 메뉴 -->
+    <div class="sub--menu--mid">
+      <table class="sub--menu--table" border="1">
+        <tr>
+          <td><a href="/info/staff" class="selected--menu">설문조사 참여하기</a></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 메인 div -->
+  <main>
+    <h1>설문조사: 서비스 만족도</h1>
+    <div class="split--div"></div>
+    <form action="/submit-survey" method="POST" class="survey-form">
+      <!-- 설문 항목 1 -->
+      <div class="survey-item">
+        <label>1. 서비스의 품질에 만족하시나요?</label>
+        <div class="survey-options">
+          <label>
+            <input type="radio" name="question1" value="매우만족" required> 매우 만족
+          </label>
+          <label>
+            <input type="radio" name="question1" value="만족"> 만족
+          </label>
+          <label>
+            <input type="radio" name="question1" value="보통"> 보통
+          </label>
+          <label>
+            <input type="radio" name="question1" value="불만족"> 불만족
+          </label>
+        </div>
+      </div>
+
+      <!-- 설문 항목 2 -->
+      <div class="survey-item">
+        <label>2. 서비스 가격에 대해 어떻게 생각하시나요?</label>
+        <div class="survey-options">
+          <label>
+            <input type="radio" name="question2" value="매우합리적" required> 매우 합리적
+          </label>
+          <label>
+            <input type="radio" name="question2" value="합리적"> 합리적
+          </label>
+          <label>
+            <input type="radio" name="question2" value="비쌈"> 비쌈
+          </label>
+        </div>
+      </div>
+
+      <!-- 설문 항목 3 -->
+      <div class="survey-item">
+        <label>3. 서비스 이용 후 만족도를 1~5점으로 평가해주세요:</label>
+        <div class="survey-options">
+          <label>
+            <input type="radio" name="question3" value="1" required> 1점
+          </label>
+          <label>
+            <input type="radio" name="question3" value="2"> 2점
+          </label>
+          <label>
+            <input type="radio" name="question3" value="3"> 3점
+          </label>
+          <label>
+            <input type="radio" name="question3" value="4"> 4점
+          </label>
+          <label>
+            <input type="radio" name="question3" value="5"> 5점
+          </label>
+        </div>
+      </div>
+
+      <!-- 설문 항목 4 -->
+      <div class="survey-item">
+        <label>4. 개선이 필요하다고 생각되는 부분이 있나요?</label><br><br>
+        <input type="text" th:placeholder="'상세히 적어주세요'" required/>
+      </div>
+
+      <!-- 제출 버튼 -->
+      <br><button type="submit" class="btn btn-dark submit-btn">설문 제출</button>
+    </form>
+  </main>
+</div>
+
+<footer>
+  <!-- 필요 시 -->
+</footer>
+</body>
+</html>

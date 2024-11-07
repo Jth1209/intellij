@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<link rel="stylesheet" href="/css/myInfo.css">
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>로그인</h2>
+        </div>
+        <!-- 메뉴 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a th:href="@{/board(category='else')}">총 게시판</a></td>
+                </tr>
+                <tr>
+                    <td><a th:href="@{/board(category='잡담')}">잡담글</a></td>
+                </tr>
+                <tr>
+                    <td><a th:href="@{/board(category='정보')}">정보글</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <main>
+        <h1>게시판</h1>
+        <div class="split--div"></div>
+
+        <table border="1" class="input--table">
+            <thead>
+            <tr>
+                <th>글 번호</th>
+                <th>제목</th>
+                <th>조회수</th>
+                <th>작성 시간</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.size(list)} > 0" th:each="list : ${list}">
+                <td th:text="${list.boardIdx}"></td>
+                <td class="title"><a href="/board/openBoardDetail.do?boardIdx=" th:attrappend="href=${list.boardIdx}"
+                                     th:text="${list.title}"></a></td>
+                <td th:text="${list.hitCnt}"></td>
+                <td th:text="${list.createdDatetime}"></td>
+            </tr>
+            <tr th:unless="${#lists.size(list)} > 0">
+                <td colspan="4">조회된 결과가 없습니다.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button th:href="@{/board/openBoardWrite.do}" class="btn btn-dark">새 글 작성</button>
+    </main>
+
+
+</div>
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>
