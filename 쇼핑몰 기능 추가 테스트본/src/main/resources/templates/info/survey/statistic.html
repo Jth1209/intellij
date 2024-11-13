@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>설문조사</title>
+    <link rel="stylesheet" href="/static/css/myInfo.css">
+
+</head>
+<body>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>설문조사</h2>
+        </div>
+        <!-- 메뉴 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/info/staff" class="selected--menu">설문조사 참여하기</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 메인 div  ** 이거 통계 보여주는 view도 만들어야 함-->
+    <main>
+        <div class="statistics">
+            <h2>설문조사 결과</h2>
+
+            <p>설문에 참여해 주셔서 감사합니다, <span th:text="${username}"></span>님!</p>
+
+            <!-- 설문 조사 통계 요약 -->
+            <div class="survey-summary">
+                <h3>설문 응답 통계</h3>
+                <table>
+                    <tr>
+                        <th>응답자 수</th>
+                        <td th:text="${count}">0</td>
+                    </tr>
+                    <tr>
+                        <th>평균 연령대</th>
+                        <td th:text="${totalAge}">0</td>
+                    </tr>
+                    <tr>
+                        <th>설문 응답자의 거주 지역</th>
+                        <td th:text="${location}">정보 없음</td>
+                    </tr>
+                    <tr>
+                        <th>하고싶은 말</th>
+                        <td th:text="${third}">없음</td>
+                    </tr>
+                </table>
+            </div>
+
+            <br>
+
+            <!-- 1번 설문 항목 결과 -->
+            <div class="survey-summary">
+                <h3>1번 질문: <span th:text="${questions[0].title}"></span></h3>
+                <p>선택된 답변: <span th:text="${userChoice1}"></span></p>
+
+                <div class="progress-wrapper">
+                    <div class="progress-bar" th:style="'width:' + ${per1} + '%'"></div>
+                </div>
+                <p th:text="'현재 선택 항목의 비율: ' + ${per1} + '%'">0%</p>
+            </div>
+
+            <!-- 2번 설문 항목 결과 -->
+            <div class="survey-summary">
+                <h3>2번 질문: <span th:text="${questions[1].title}"></span></h3>
+                <p>선택된 답변: <span th:text="${userChoice2}"></span></p>
+
+                <div class="progress-wrapper">
+                    <div class="progress-bar" th:style="'width:' + ${per2} + '%'"></div>
+                </div>
+                <p th:text="'현재 선택 항목의 비율: ' + ${per2} + '%'">0%</p>
+            </div>
+
+            <!-- 뒤로 가기 버튼 -->
+            <a href="/board/openBoardList.do" class="btn-go-back">목록으로 돌아가기</a>
+        </div>
+
+    </main>
+
+</div>
+
+<footer>
+    <!-- 필요 시 -->
+</footer>
+</body>
+</html>

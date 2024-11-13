@@ -11,6 +11,8 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 	List<BoardDto> selectBoardList() throws Exception;
+
+	List<BoardDto> selectFiveBoard() throws Exception;
 	
 	void insertBoard(BoardDto board) throws Exception;
 

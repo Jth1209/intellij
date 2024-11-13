@@ -10,6 +10,8 @@ import java.util.List;
 public interface BoardService {
 	
 	List<BoardDto> selectBoardList() throws Exception;
+
+	List<BoardDto> selectFiveBoard() throws Exception;
 	
 	void insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception;
 

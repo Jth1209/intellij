@@ -182,6 +182,7 @@
                     <col width="35%"/>
                 </colgroup>
                 <caption>게시글 상세내용</caption>
+
                 <tbody>
                 <tr>
                     <th scope="row">글 번호</th>
@@ -245,9 +246,23 @@
         <div class="comment-section">
             <h3>댓글</h3>
             <div class="comment-form">
-                <form th:action="@{/board/comment(id=${board.boardIdx})}" method="post">
+                <form th:action="@{/comment/{id}(id=${board.boardIdx})}" method="post">
                     <textarea name="content" rows="4" placeholder="댓글을 작성하세요." required class="form-control"></textarea>
                     <button type="submit" class="btn btn-dark">댓글 작성</button>
+                    <div th:if="${#lists.isEmpty(board.comments)}" th:each="comment : ${board.comments}">
+                        <table>
+                            <tr>
+                                <td class="" th:text="${comment.nick}"></td>
+                                <td th:text="${comment.createdTime}"/>
+                            </tr>
+                            <tr>
+                                <td th:text="${comment.content}"></td>
+                                <div th:if="${session.authInfo.id.equals(comment.id)}">
+
+                                </div>
+                            </tr>
+                        </table>
+                    </div>
                 </form>
             </div>
         </div>
@@ -258,7 +273,7 @@
         </div>
 
         <!-- 관리자인 경우 -->
-        <div th:if="${uname == board.creatorId}">
+        <div th:if="${uname == board.creatorId || session.authInfo.role.equals('ADMIN')}">
             <a href="#this" id="listT" class="btn btn-secondary">목록으로</a>
             <a href="#this" id="edit" class="btn btn-primary">수정하기</a>
             <a href="#this" id="delete" class="btn btn-danger">삭제하기</a>

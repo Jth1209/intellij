@@ -26,4 +26,6 @@ public class BoardDto {
 	private String uname;
 
 	private List<BoardFileDto> fileList;
+
+	private List<Comment> comments;
 }

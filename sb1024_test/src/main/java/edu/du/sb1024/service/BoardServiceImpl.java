@@ -26,6 +26,11 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
+	public List<BoardDto> selectFiveBoard() throws Exception {
+		return boardMapper.selectFiveBoard();
+	}
+
+	@Override
 	public void insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
 		boardMapper.insertBoard(board);
 		List<BoardFileDto> list = fileUtils.parseFileInfo(board.getBoardIdx(), multipartHttpServletRequest);

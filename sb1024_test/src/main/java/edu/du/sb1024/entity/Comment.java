@@ -18,14 +18,13 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;//o
     @Column
-    private Integer bid;//o
-    @Column
-    private String name;//o
+    private String nick;//o
     @Column
     private String content;//o
     @Column
     private String createdTime;
-    @Column(name="heart_cnt")
-    private Integer heart;
+    @ManyToOne
+    @JoinColumn(name="board_id")
+    private Board board;
 }
 

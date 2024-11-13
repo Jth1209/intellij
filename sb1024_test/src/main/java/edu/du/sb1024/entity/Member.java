@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data            // Getter Setter
@@ -37,6 +38,12 @@ public class Member {
     private LocalDateTime regdate;
 
     private String nick;
+
+    @OneToMany(mappedBy="member")
+    private List<Order> order;
+
+    @OneToMany(mappedBy="member")
+    private List<Shipment> shipment;
 
     public void changePassword(String oldPassword, String newPassword) {
         PasswordEncoder pe = new PasswordEncoder();

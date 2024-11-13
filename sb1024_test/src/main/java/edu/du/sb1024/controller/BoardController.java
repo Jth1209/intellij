@@ -1,5 +1,6 @@
 package edu.du.sb1024.controller;
 
+import edu.du.sb1024.entity.AuthInfo;
 import edu.du.sb1024.entity.BoardDto;
 import edu.du.sb1024.entity.BoardFileDto;
 import edu.du.sb1024.service.BoardService;
@@ -60,7 +61,8 @@ public class BoardController {
 	
 	@PostMapping("/board/insertBoard.do")
 	public String insertBoard(BoardDto board, MultipartHttpServletRequest multipartHttpServletRequest, HttpSession session) throws Exception{
-		board.setCreatorId(session.getAttribute("authInfo").toString());
+		AuthInfo auth = (AuthInfo) session.getAttribute("authInfo");
+		board.setCreatorId(auth.getName());
 		boardService.insertBoard(board, multipartHttpServletRequest);
 		return "redirect:/board/openBoardList.do";
 	}
@@ -78,8 +80,9 @@ public class BoardController {
 	@RequestMapping("/board/openBoardDetail.do")
 	public String openBoardDetail(@RequestParam int boardIdx , Model model,HttpSession session) throws Exception{
 		BoardDto board = boardService.selectBoardDetail(boardIdx);
+		AuthInfo auth=(AuthInfo) session.getAttribute("authInfo");
 		model.addAttribute("board", board);
-		model.addAttribute("uname", session.getAttribute("authInfo").toString());
+		model.addAttribute("uname",auth.getName());
 
 		return "/info/board/boardDetail";
 	}

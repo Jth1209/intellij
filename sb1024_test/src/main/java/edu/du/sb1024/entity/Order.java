@@ -1,20 +1,29 @@
 package edu.du.sb1024.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Setter
+@Getter
 @Entity
-@Data
+@Table (name = "orders")
+@ToString
 public class Order {
+
+    // Getters and Setters
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String pname;
-    private String quantity;
-    private String price;
+    private String name;
+    private int quantity;
+    private double price;
+    private String des;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name="member_id")
+    private Member member;
 }

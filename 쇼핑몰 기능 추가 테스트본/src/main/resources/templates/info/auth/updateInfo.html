@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<link rel="stylesheet" href="/css/myInfo.css">
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>MY</h2>
+        </div>
+        <!-- 메뉴 -->
+        <!-- 선택된 메뉴에 class="selected--menu" 추가해주세요 -->
+        <div class="sub--menu--mid">
+            <table th:if="${!session.authInfo.role.equals('ADMIN')}" class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/myinfo" class="selected--menu">내 정보 조회</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/edit/changePassword">비밀번호 변경</a></td>
+                </tr>
+            </table>
+            <table th:if="${session.authInfo.role.equals('ADMIN')}" class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/myinfo" class="selected--menu">내 정보 조회</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/edit/changePassword">비밀번호 변경</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/admin" class="selected--menu">사용자 관리</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/shipments" class="selected--menu">물품 관리</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 메인 div -->
+    <main>
+        <h1>내 정보 조회</h1>
+        <div class="split--div"></div>
+        <form th:action="@{/updateInfo}" method="post" th:object="${member}">
+            <table border="1" class="input--table">
+                <colgroup>
+                    <col class="col1">
+                    <col class="col2">
+                    <!--        <col class="col3">-->
+                    <!--        <col class="col4">-->
+                </colgroup>
+                <tr>
+                    <th>성명</th>
+                    <td><input type="text" name="name" th:value="${member.username}" required/></td>
+                </tr>
+                <tr>
+                    <th>닉네임</th>
+                    <td><input type="text" name="nick" th:field="${member.nick}" required/></td>
+                    <div th:if="${#fields.hasErrors('nick')}" th:errors="*{nick}"></div>
+                </tr>
+            </table><!--업데이트 시, authInfo의 값도 초기화 해줘야 함. -->
+            <button type="submit" class="btn btn-dark update--button">저장하기</button>
+
+        </form>
+    </main>
+</div>
+
+
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

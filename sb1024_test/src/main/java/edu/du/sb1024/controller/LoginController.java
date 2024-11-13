@@ -36,7 +36,7 @@ public class LoginController {
 		try {
 			AuthInfo authInfo = authService.authenticate(loginCommand.getEmail(), loginCommand.getPassword());
 			session.setAttribute("authInfo", authInfo);
-			return "/allow/index";
+			return "redirect:/";
 		}catch (WrongIdPasswordException e) {
 			errors.reject("idPasswordNotMatching");
 			return "/allow/login";

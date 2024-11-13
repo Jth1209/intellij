@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.du.sb1024.mapper.OrderMapper">
+    <select id="selectOrderList" resultType="edu.du.sb1024.entity.OrderDto">
+		<![CDATA[
+        SELECT id,
+               name,
+               quantity,
+               price,
+               des,
+               member_id
+        FROM orders
+        WHERE quantity > 0
+        ORDER BY id DESC
+        ]]>
+	</select>
+
+    <select id="selectOrderListWithKeyword" parameterType="string" resultType="edu.du.sb1024.entity.OrderDto"><!--검색만 했을 때 -->
+		<![CDATA[
+        SELECT id,
+               name,
+               quantity,
+               price,
+               des,
+               member_id
+        FROM orders
+        WHERE quantity > 0 and title LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY id DESC
+        ]]>
+	</select>
+
+    <select id="selectOrderListWithKeywordAndAggi" parameterType="string" resultType="edu.du.sb1024.entity.OrderDto"><!--검색 + 타입이 잡담 -->
+		<![CDATA[
+        SELECT id,
+               name,
+               quantity,
+               price,
+               des,
+               member_id
+        FROM orders
+        WHERE quantity > 0 and name LIKE CONCAT('%', #{keyword}, '%') and type LIKE CONCAT('%', #{type}, '%')
+        ORDER BY id DESC
+        ]]>
+	</select>
+
+    <select id="selectOrderListWithKeywordAndEtc" parameterType="string" resultType="edu.du.sb1024.entity.OrderDto"><!--검색 + 타입이 정보 -->
+        <![CDATA[
+        SELECT id,
+               name,
+               quantity,
+               price,
+               des,
+               member_id
+        FROM orders
+        WHERE quantity > 0 and name LIKE CONCAT('%', #{keyword}, '%') and type LIKE CONCAT('%', #{type}, '%')
+        ORDER BY id DESC
+        ]]>
+    </select>
+
+    <select id="selectOrderListWithEtc" parameterType="string" resultType="edu.du.sb1024.entity.OrderDto"><!--검색 + 타입이 정보 -->
+        <![CDATA[
+        SELECT id,
+               name,
+               quantity,
+               price,
+               des,
+               member_id
+        FROM orders
+        WHERE quantity > 0 and type LIKE CONCAT('%', #{type}, '%')
+        ORDER BY id DESC
+        ]]>
+    </select>
+
+    <select id="selectOrderListWithAggi" parameterType="string" resultType="edu.du.sb1024.entity.OrderDto"><!--타입이 잡담 -->
+        <![CDATA[
+        SELECT id,
+               name,
+               quantity,
+               price,
+               des,
+               member_id
+        FROM orders
+        WHERE quantity > 0 and type LIKE CONCAT('%', #{type}, '%')
+        ORDER BY id DESC
+        ]]>
+    </select>
+
+    <insert id="insertOrder" parameterType="edu.du.sb1024.entity.OrderDto" useGeneratedKeys="true"
+            keyProperty="id">
+		<![CDATA[
+        INSERT INTO orders
+        (name,
+         quantity,
+         price,
+         des,
+         member_id,
+         type)
+        VALUES (#{name},
+                #{quantity},
+                #{price},
+                #{des},
+                #{mid},
+                #{type})
+        ]]>
+	</insert>
+
+    <update id="updateOrder" parameterType="edu.du.sb1024.entity.OrderDto">
+		<![CDATA[
+        UPDATE orders
+        SET name             = #{name},
+            quantity         = #{quantity},
+            price            = #{price},
+            des       = #{des},
+            type = #{type}
+        WHERE id = #{id}
+        ]]>
+	</update>
+
+    <delete id="deleteOrder" parameterType="Long">
+		<![CDATA[
+        DELETE FROM order where id = #{id}
+        ]]>
+	</delete>
+
+    <insert id="insertOrderFileList" parameterType="edu.du.sb1024.entity.OrderFileDto">
+        <![CDATA[
+			INSERT INTO o_file
+			(
+				order_idx,
+				original_file_name,
+				stored_file_path,
+				file_size,
+				mid
+			)
+			VALUES
+		]]>
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.orderIdx},
+            #{item.originalFileName},
+            #{item.storedFilePath},
+            #{item.fileSize},
+            #{creator_id},
+            NOW()
+            )
+        </foreach>
+    </insert>
+
+    <select id="selectOrderFileList" parameterType="int" resultType="edu.du.sb1024.entity.OrderFileDto">
+		<![CDATA[
+        SELECT idx,
+               order_idx,
+               original_file_name,
+               stored_file_path,
+               FORMAT(ROUND(file_size / 1024), 0) AS file_size
+        FROM o_file
+        WHERE order_idx = #{orderIdx}
+          AND deleted_yn = 'N'
+        ]]>
+	</select>
+
+    <select id="selectBoardOrderInformation" parameterType="map" resultType="edu.du.sb1024.entity.OrderFileDto">
+		<![CDATA[
+        SELECT original_file_name,
+               stored_file_path,
+               file_size
+        FROM o_file
+        WHERE idx = #{idx}
+          AND order_idx = #{orderIdx}
+          AND deleted_yn = 'N'
+        ]]>
+	</select>
+</mapper>

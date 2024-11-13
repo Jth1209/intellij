@@ -33,6 +33,9 @@ public class Board {
 	@Column(columnDefinition = "varchar(2) default 'N'")
 	private String deletedYn;
 
-	@Column(name="heart_cnt")
-	private Integer heartCnt;
+	@OneToMany(mappedBy="board")
+	private List<Comment> comments;
+
+//	@Column
+//	private String keyword;
 }

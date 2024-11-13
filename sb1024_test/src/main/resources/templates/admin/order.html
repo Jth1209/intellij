@@ -7,83 +7,101 @@
 
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
-  <!-- 세부 메뉴 div-->
-  <div class="sub--menu">
-    <div class="sub--menu--top">
-      <h2>MY</h2>
-    </div>
-    <!-- 메뉴 -->
-    <!-- 선택된 메뉴에 class="selected--menu" 추가해주세요 -->
-    <div class="sub--menu--mid">
-      <table class="sub--menu--table" border="1">
-        <tr>
-          <td><a href="/info/order" class="selected--menu">내 상품 조회</a></td>
-        </tr>
-        <tr>
-          <td><a href="/info/item" class="selected--menu">상품 등록</a></td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- 메인 div -->
-  <main>
-    <h1>상품 관리</h1>
-    <div class="split--div"></div>
-
-    <!-- admin 역할일 때만 표시 -->
-    <div th:if="${#lists.isEmpty(session.authInfo) && session.authInfo == 'admin'}">
-      <h2>등록된 상품</h2>
-
-      <!-- 상품이 있을 때 -->
-      <div th:if="${shipments != null && !shipments.isEmpty()}">
-        <table border="1" class="input--table">
-          <colgroup>
-            <col class="col1">
-            <col class="col2">
-            <col class="col3">
-            <col class="col4">
-          </colgroup>
-          <thead>
-          <tr>
-            <th>상품 이름</th>
-            <th>상품 개수</th>
-            <th>상품 가격</th>
-            <th>검토 상태</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="product : ${shipments}">
-            <td th:text="${product.pname}">상품 이름</td>
-            <td th:text="${product.quantity}">상품 개수</td>
-            <td th:text="${product.price}">상품 가격</td>
-            <td th:text="${product.status}">검토 상태</td>
-          </tr>
-          </tbody>
-        </table>
-        <button type="button" onclick="location.href='/update-product'" class="btn btn-dark update--button">상품 수정</button>
-      </div>
-
-      <!-- 등록된 상품이 없을 때 -->
-      <div th:if="${shipments == null || shipments.isEmpty()}">
-        <p>등록된 상품이 없습니다.</p>
-        <button type="button" onclick="location.href='/add-product'" class="btn btn-dark update--button">상품 등록</button>
-      </div>
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>MY</h2>
+        </div>
+        <!-- 메뉴 -->
+        <!-- 선택된 메뉴에 class="selected--menu" 추가해주세요 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/myinfo" class="selected--menu">내 정보 조회</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/edit/changePassword">비밀번호 변경</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/admin" class="selected--menu">사용자 관리</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/shipments" class="selected--menu">물품 관리</a></td>
+                </tr>
+            </table>
+        </div>
     </div>
 
-    <!-- admin이 아닐 경우 접근 불가 메시지 -->
-    <div th:if="${session.authInfo != 'admin'}">
-      <p>이 페이지는 관리자만 접근 가능합니다.</p>
-    </div>
-  </main>
+    <!-- 메인 div -->
+    <main>
+        <h1>등록된 상품</h1>
+        <div class="split--div"></div>
 
+        <!-- admin 역할일 때만 표시 -->
+        <div th:if="${session.authInfo.role.equals('ADMIN')}">
+            <h2>등록된 상품</h2>
 
+            <!-- 상품이 있을 때 -->
+            <div th:if="${shipments != null && !shipments.isEmpty()}">
+                <table border="1" class="input--table">
+                    <colgroup>
+                        <col class="col1">
+                        <col class="col2">
+                        <col class="col3">
+                        <col class="col4">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>주문 번호</th>
+                        <th>상품 이름</th>
+                        <th>상품 개수</th>
+                        <th>상품 가격</th>
+                        <th>검토 상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${shipments}">
+                        <td th:text="${product.id}">주문 번호</td>
+                        <td th:text="${product.oid}">상품 번호</td>
+                        <td th:text="${product.name}">상품 이름</td>
+                        <td th:text="${product.quantity}">상품 개수</td>
+                        <td th:text="${product.price}">상품 가격</td>
+                        <td th:text="${product.status}">검토 상태</td>
+                        <td>
+                            <form th:action="@{/shipments/updateStatus}" method="post" style="display:inline;">
+                                <input type="hidden" name="id" th:value="${product.id}">
+                                <input type="hidden" name="status" value="배송 중">
+                                <button type="submit" class="btn btn-warning">배송 중</button>
+                            </form>
+                            <form th:action="@{/shipments/updateStatus}" method="post" style="display:inline;">
+                                <input type="hidden" name="id" th:value="${product.id}">
+                                <input type="hidden" name="status" value="배송 완료">
+                                <button type="submit" class="btn btn-success">배송 완료</button>
+                            </form>
+                            <a class="btn btn-danger" th:href="@{/shipments/delete/{id}(id=${product.id})}">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 등록된 상품이 없을 때 -->
+            <div th:if="${shipments == null || shipments.isEmpty()}">
+                <p>등록된 상품이 없습니다.</p>
+                <button type="button" onclick="location.href='/add-product'" class="btn btn-dark update--button">상품 등록
+                </button>
+            </div>
+        </div>
+
+        <!-- admin이 아닐 경우 접근 불가 메시지 -->
+        <div th:unless="${session.authInfo.role.equals('ADMIN')}">
+            <p>이 페이지는 관리자만 접근 가능합니다.</p>
+        </div>
+    </main>
 </div>
 
-
-
 <footer>
-  <!-- 필요 시 -->
+    <!-- 필요 시 -->
 </footer>
 
 </div>

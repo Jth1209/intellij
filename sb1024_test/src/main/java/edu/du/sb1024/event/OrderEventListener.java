@@ -20,10 +20,11 @@ public class OrderEventListener {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
-        Shipment sm = Shipment.builder().oid(order.getId()).pname(order.getPname()).quantity(order.getQuantity()).price(order.getPrice()).status(order.getStatus()).build();
+        Shipment sm = Shipment.builder().oid(order.getId()).name(order.getName()).quantity(order.getQuantity()).price(order.getPrice()).des(order.getDes()).member(order.getMember()).status(order.getStatus()).build();
         em.persist(sm);//사용자가 요청한 물건의 검토 상태를 확인할 수 있도록 하기 위해서 관리자가 검토 상태를 업데이트하면 사용자가 즉시 확인할 수 있도록 하는 상태변경 이벤트도 추가해야함.
 
         em.getTransaction().commit();
+        em.close();
     }
     @EventListener//사용자를 통해 아이템 삭제 시, 관리자 페이지에도 삭제되는 것.
     public void deleteOrderEvent(OrderEvent2 orderEvent) {
@@ -36,6 +37,7 @@ public class OrderEventListener {
         em.remove(sm);
 
         em.getTransaction().commit();
+        em.close();
     }
 
     @EventListener//관리자를 통해 아이템 삭제 시,  사용자의 주문 또한 삭제되는 것.
@@ -48,5 +50,17 @@ public class OrderEventListener {
 
         em.remove(o);
         em.getTransaction().commit();
+        em.close();
+    }
+
+    @EventListener
+    public void changeStatusEvent(ShipmentEvent2 shipmentEvent) {
+        Shipment sm = shipmentEvent.getShipment();
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Order o = em.find(Order.class, sm.getOid());
+        o.setStatus(sm.getStatus());
+        em.getTransaction().commit();
+        em.close();
     }
 }
