@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        .board-form {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .board-form h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .split--div {
+            height: 1px;
+            background-color: #e2e2e2;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 200px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+        }
+
+        .file-label {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .file-selected {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* 버튼 스타일 */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 4px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ddd;
+        }
+
+        .form-actions {
+            text-align: right;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        input[type="file"]:focus + .file-selected {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<link rel="stylesheet" href="/css/myInfo.css">
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>로그인</h2>
+        </div>
+        <!-- 메뉴 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a th:href="@{/board/openBoardList.do}">총 게시판</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <main>
+        <h1>게시글 등록</h1>
+        <div class="split--div"></div>
+
+        <form id="frm" name="frm" method="post" th:action="@{/board/insertBoard.do}" enctype="multipart/form-data"
+              class="board-form">
+            <select class="input--box" name="type">
+                <option value="all">전체</option>
+                <option value="common">잡담</option>
+                <option value="info">정보</option>
+            </select>
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" id="title" name="title" class="form-control" required placeholder="제목을 입력하세요"/>
+            </div>
+
+            <div class="form-group">
+                <label for="contents">내용</label>
+                <textarea id="contents" name="contents" class="form-control" required
+                          placeholder="게시글 내용을 작성하세요"></textarea>
+            </div>
+
+            <!-- 파일 첨부 부분 -->
+            <div class="form-group">
+                <label for="files" class="file-label">첨부파일</label>
+                <div class="file-input-wrapper">
+                    <input type="file" id="files" name="files" multiple="multiple" class="form-control-file"/>
+                    <span class="file-selected">파일을 선택하세요</span>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" id="submit" class="btn btn-primary">저장</button>
+                <button type="reset" class="btn btn-secondary">초기화</button>
+            </div>
+        </form>
+
+    </main>
+</div>
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

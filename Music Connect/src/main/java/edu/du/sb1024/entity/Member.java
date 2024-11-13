@@ -1,0 +1,63 @@
+package edu.du.sb1024.entity;
+
+import edu.du.sb1024.encoder.PasswordEncoder;
+import edu.du.sb1024.spring.WrongIdPasswordException;
+import edu.du.sb1024.validation.IdPasswordMatch;
+import edu.du.sb1024.validation.NickCheck;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Data            // Getter Setter
+@Builder        // DTO -> Entity화
+@AllArgsConstructor    // 모든 컬럼 생성자 생성
+@NoArgsConstructor    // 기본 생성자
+@Table(name = "member")
+public class Member {
+
+    @Id    // 내가 PK
+    @GeneratedValue(strategy = GenerationType.IDENTITY)	// 자동 id 생성
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    @NotBlank(message="필수 정보입니다.")
+    private String email;
+
+    @Column
+    private String username;
+
+    @Column(nullable = false)
+    @NotBlank(message="필수 정보입니다.")
+    private String password;
+
+    @Column(nullable = false)
+    private String role;
+
+    private LocalDateTime regdate;
+
+//    @NickCheck
+    private String nick;
+
+    @OneToMany(mappedBy="member")
+    private List<Order> order;
+
+    @OneToMany(mappedBy="member")
+    private List<Shipment> shipment;
+
+    public void changePassword(String oldPassword, String newPassword) {
+        PasswordEncoder pe = new PasswordEncoder();
+        if (!password.equals(pe.encrypt(email,oldPassword)))
+            throw new WrongIdPasswordException();
+        this.password = pe.encrypt(email,newPassword);
+    }
+    public boolean matchPasswrod(String password) {
+        return this.password.equals(password);
+    }
+}

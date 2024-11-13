@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>test</title>
+    <style>
+        /*.main--page--div .d-flex {*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*    align-items: flex-start;*/
+        /*    gap: 20px;*/
+        /*    width: 100%;*/
+        /*    max-width: 1200px;*/
+        /*    margin: 0 auto;*/
+        /*}*/
+
+        /* 각 테이블 컨테이너 */
+        .main--page--notice,
+        .main--page--calander {
+            flex: 1;
+            max-width: 50%;
+            box-sizing: border-box;
+        }
+
+        /* 테이블 스타일링 */
+        .main--page--notice table,
+        .main--page--calander table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .main--page--notice th,
+        .main--page--notice td,
+        .main--page--calander th,
+        .main--page--calander td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .main--page--notice th,
+        .main--page--calander th {
+            background-color: #f2f2f2;
+        }
+
+        .main--page--notice table th,
+        .main--page--notice table td {
+            width: 33.33%; /* 3개의 셀이 균등한 공간 차지 */
+            padding: 10px; /* 가운데 정렬 */
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+            text-overflow: ellipsis; /* 내용이 길 경우 생략 (...) 처리 */
+            white-space: nowrap; /* 텍스트가 한 줄에 표시되도록 */
+        }
+
+        /*!* 반응형 디자인 *!*/
+        /*@media (max-width: 768px) {*/
+        /*    .main--page--div .d-flex {*/
+        /*        flex-direction: column;*/
+        /*        align-items: center;*/
+        /*    }*/
+
+        /*    .main--page--notice,*/
+        /*    .main--page--calander {*/
+        /*        max-width: 100%;*/
+        /*    }*/
+        /*}*/
+    </style>
+</head>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0"/>
+<link rel="stylesheet" href="/static/css/mainPage.css">
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body onLoad="javascript:pop()">
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+
+    <div>
+        <img id="slider" src="/images2/main_photo3.jpg" alt="슬라이드 이미지" class="main--page--img">
+        <script src="/js/script.js"></script>
+        <div class="d-flex justify-content-center align-items-start">
+            <div class="main--page--div">
+                <div class="d-flex">
+                    <!-- 공지사항 -->
+                    <div class="main--page--notice">
+                        <h3>
+                            <a href="/notice">게시판 미리보기</a>
+                        </h3>
+                        <div class="main--page--split"></div>
+                        <table th:if="${#lists.size(boards) > 0 }" th:each="list : ${boards}"><!--가장 왼쪽에 위치한 공지사항 => 여기는 board 테이블에서 글 제목이랑 글 작성 날짜를 불러와서 게시판 미리보기로 만들기
+                        게시판에 카테고리 추가해서 (게시판, 정보) 게시판에는 게시판에 해당하는 글만 가지고 오게 하고, 정보글의 contents는 무조건 링크로 하도록 validation 걸기-->
+                            <tr>
+                                <td th:text="${list.creatorId}"></td>
+                                <td><a href="/board/openBoardDetail.do?boardIdx=" th:attrappend="href=${list.boardIdx}"
+                                       th:text="${list.title}"></a></td>
+                                <td th:text="${list.createdDatetime}"></td>
+                            </tr>
+                        </table>
+                        <table th:unless="${#lists.size(boards) > 0 }"><!--가장 왼쪽에 위치한 공지사항 => 여기는 board 테이블에서 글 제목이랑 글 작성 날짜를 불러와서 게시판 미리보기로 만들기
+                        게시판에 카테고리 추가해서 (게시판, 정보) 게시판에는 게시판에 해당하는 글만 가지고 오게 하고, 정보글의 contents는 무조건 링크로 하도록 validation 걸기-->
+                            <thead>현재 등록된 게시글이 없습니다.</thead>
+                        </table>
+                    </div>
+                    <div class="main--page--calander">
+                        <!--학사 일정 위치 => 홈페이지 분위기에 맞는 일정을 작성 or 위와 같이 홈페이지에 관한 정보를 적어두기 <href> -->
+
+                        <h3>
+                            <a href="/schedule">홈페이지 관련 정보</a>
+                        </h3>
+                        <div class="main--page--split"></div>
+                        <table>
+
+                            <tr>
+                                <td>01-27&nbsp;-&nbsp;02-01</td>
+                                <td>2023-1학기 예비수강신청</td>
+                            </tr>
+
+                            <tr>
+                                <td>02-13&nbsp;-&nbsp;02-17</td>
+                                <td>2023-1학기 수강신청</td>
+                            </tr>
+
+                            <tr>
+                                <td>02-17&nbsp;-&nbsp;02-23</td>
+                                <td>2023-1학기 등록</td>
+                            </tr>
+
+                            <tr>
+                                <td>02-22&nbsp;-&nbsp;02-22</td>
+                                <td>복학 접수 마감</td>
+                            </tr>
+
+                            <tr>
+                                <td>02-26&nbsp;-&nbsp;02-26</td>
+                                <td>졸업예배</td>
+                            </tr>
+
+                            <tr>
+                                <td>02-27&nbsp;-&nbsp;02-27</td>
+                                <td>학위수여식</td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+
+</body>
+</html>

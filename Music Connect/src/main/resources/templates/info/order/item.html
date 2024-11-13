@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<link rel="stylesheet" href="/css/myInfo.css">
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>MY</h2>
+        </div>
+        <!-- 메뉴 -->
+        <!-- 선택된 메뉴에 class="selected--menu" 추가해주세요 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/info/order" class="selected--menu">내 상품 조회</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/info/item" class="selected--menu">상품 등록</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 메인 div -->
+    <main>
+        <h1>상품 등록</h1>
+        <div class="split--div"></div>
+
+        <!-- 상품 등록 폼 -->
+        <form action="/orders/save" method="POST" class="product-form" th:object="${order}">
+            <!-- 상품 이름 입력 -->
+            <div class="form-group">
+                <label for="productName">상품 이름</label>
+                <input type="text" id="productName" th:field="*{name}" class="form-control" required
+                       placeholder="상품 이름을 입력해주세요">
+            </div>
+
+            <!-- 상품 개수 입력 -->
+            <div class="form-group">
+                <label for="productQuantity">상품 개수</label>
+                <input type="number" id="productQuantity" th:field="*{quantity}" class="form-control" required
+                       placeholder="상품의 개수를 입력해주세요" min="1">
+            </div>
+
+            <!-- 상품 가격 입력 -->
+            <div class="form-group">
+                <label for="productPrice">상품 가격 (원)</label>
+                <input type="number" id="productPrice" th:field="*{price}" class="form-control" required
+                       placeholder="상품의 가격을 입력해주세요" min="1">
+            </div>
+
+            <!-- 상품 설명 입력 (옵션) -->
+            <div class="form-group">
+                <label for="productDescription">상품 설명 (선택)</label>
+                <textarea id="productDescription" th:field="*{des}" class="form-control" rows="4"
+                          placeholder="상품에 대한 간단한 설명을 입력해주세요"></textarea>
+            </div>
+
+            <!-- 상품 등록 버튼 -->
+            <button type="submit" class="btn btn-dark submit-btn">상품 등록</button>
+        </form>
+    </main>
+
+</div>
+
+
+<footer>
+    <!-- 필요 시 -->
+</footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<link rel="stylesheet" href="/css/myInfo.css">
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>로그인</h2>
+        </div>
+        <!-- 메뉴 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/register">회원가입</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 메인 div -->
+    <main>
+        <h1>로그인</h1>
+        <div class="split--div"></div>
+        <form th:action="@{/login}" th:object="${loginCommand}" method="post">
+            <p>
+                <label>
+                    <input type="hidden" th:field="*{rememberEmail}"/>
+                    <div th:if="${#fields.hasErrors('rememberEmail')}" th:errors="*{rememberEmail}"></div>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <span th:text="${#messages.msg('email')}">Email:</span><br>
+                    <input type="email" th:field="*{email}"/>
+                    <div th:if="${#fields.hasErrors('email')}" th:each="error : ${#fields.errors('email')}"
+                         th:text="${error}"></div>
+                </label>
+            </p>
+            <p>
+                <label>
+                    <span th:text="${#messages.msg('password')}">Password:</span><br>
+                    <input type="password" th:field="*{password}"/>
+                    <div th:if="${#fields.hasErrors('password')}" th:each="error : ${#fields.errors('password')}"
+                         th:text="${error}"></div>
+                </label>
+            </p>
+            <input type="submit" th:value="${#messages.msg('login.btn')}"/>
+        </form>
+    </main>
+</div>
+
+
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>
