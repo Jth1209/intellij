@@ -4,121 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <link rel="stylesheet" href="/static/css/myInfo.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
         /* 테이블 스타일 */
-        .input--table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 추가 */
-        }
+        /*.input--table {*/
+        /*    width: 100%;*/
+        /*    border-collapse: collapse;*/
+        /*    margin-top: 20px;*/
+        /*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* 부드러운 그림자 추가 *!*/
+        /*}*/
 
-        .input--table th, .input--table td {
-            padding: 15px; /* 여백을 넓혀서 더 깔끔한 느낌 */
-            text-align: left;
-            border: 1px solid #ddd; /* 연한 회색 테두리 */
-            font-size: 14px;
-            color: #555;
-        }
+        /*.input--table th, .input--table td {*/
+        /*    padding: 15px; !* 여백을 넓혀서 더 깔끔한 느낌 *!*/
+        /*    text-align: left;*/
+        /*    border: 1px solid #ddd; !* 연한 회색 테두리 *!*/
+        /*    font-size: 14px;*/
+        /*    color: #555;*/
+        /*}*/
 
-        .input--table th {
-            background-color: #f8f9fa; /* 라이트 그레이 배경 */
-            font-weight: bold;
-            color: #333; /* 더 진한 텍스트 색상 */
-        }
+        /*.input--table th {*/
+        /*    background-color: #f8f9fa; !* 라이트 그레이 배경 *!*/
+        /*    font-weight: bold;*/
+        /*    color: #333; !* 더 진한 텍스트 색상 *!*/
+        /*}*/
 
-        .input--table tr:nth-child(even) {
-            background-color: #f9f9f9; /* 짝수 행에 색상 적용 */
-        }
+        /*.input--table tr:nth-child(even) {*/
+        /*    background-color: #f9f9f9; !* 짝수 행에 색상 적용 *!*/
+        /*}*/
 
-        .input--table tr:hover {
-            background-color: #e9ecef; /* 마우스 오버 시 배경색 변경 */
-            cursor: pointer;
-        }
+        /*.input--table tr:hover {*/
+        /*    background-color: #e9ecef; !* 마우스 오버 시 배경색 변경 *!*/
+        /*    cursor: pointer;*/
+        /*}*/
 
-        .title a {
-            color: #007bff; /* 제목 링크 색상 */
-            text-decoration: none;
-            font-weight: 600; /* 글씨 강조 */
-        }
+        /*.title a {*/
+        /*    color: #007bff; !* 제목 링크 색상 *!*/
+        /*    text-decoration: none;*/
+        /*    font-weight: 600; !* 글씨 강조 *!*/
+        /*}*/
 
-        .title a:hover {
-            text-decoration: underline;
-        }
+        /*.title a:hover {*/
+        /*    text-decoration: underline;*/
+        /*}*/
 
-        /* 새 글 작성 버튼 */
-        .btn-dark {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease; /* 버튼 색상 전환 효과 */
-        }
+        /*!* 새 글 작성 버튼 *!*/
+        /*.btn-dark {*/
+        /*    background-color: #333;*/
+        /*    color: white;*/
+        /*    padding: 10px 20px;*/
+        /*    border-radius: 5px;*/
+        /*    text-decoration: none;*/
+        /*    transition: background-color 0.3s ease; !* 버튼 색상 전환 효과 *!*/
+        /*}*/
 
-        .btn-dark:hover {
-            background-color: #555;
-        }
+        /*.btn-dark:hover {*/
+        /*    background-color: #555;*/
+        /*}*/
 
-        /* 반응형 디자인 */
-        @media (max-width: 768px) {
-            .input--table th, .input--table td {
-                padding: 10px; /* 작은 화면에서 테이블 여백을 조금 더 좁혀줌 */
-                font-size: 12px; /* 작은 화면에서 폰트 크기를 작게 설정 */
-            }
-        }
+        /*!* 반응형 디자인 *!*/
+        /*@media (max-width: 768px) {*/
+        /*    .input--table th, .input--table td {*/
+        /*        padding: 10px; !* 작은 화면에서 테이블 여백을 조금 더 좁혀줌 *!*/
+        /*        font-size: 12px; !* 작은 화면에서 폰트 크기를 작게 설정 *!*/
+        /*    }*/
+        /*}*/
 
-        .pagination-nav {
-            display: flex;
-            justify-content: center; /* 가로 기준으로 중앙 정렬 */
-            margin-top: 20px; /* 상단 여백 */
-        }
+        /*.pagination-nav {*/
+        /*    display: flex;*/
+        /*    justify-content: center; !* 가로 기준으로 중앙 정렬 *!*/
+        /*    margin-top: 20px; !* 상단 여백 *!*/
+        /*}*/
 
-        .pagination {
-            display: flex;
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
+        /*.pagination {*/
+        /*    display: flex;*/
+        /*    list-style-type: none;*/
+        /*    padding: 0;*/
+        /*    margin: 0;*/
+        /*}*/
 
-        .page-item {
-            margin: 0 5px; /* 페이지 항목 간격 */
-        }
+        /*.page-item {*/
+        /*    margin: 0 5px; !* 페이지 항목 간격 *!*/
+        /*}*/
 
-        .page-link {
-            display: block;
-            padding: 8px 16px;
-            text-decoration: none;
-            color: #007bff;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
+        /*.page-link {*/
+        /*    display: block;*/
+        /*    padding: 8px 16px;*/
+        /*    text-decoration: none;*/
+        /*    color: #007bff;*/
+        /*    background-color: #fff;*/
+        /*    border: 1px solid #ddd;*/
+        /*    border-radius: 4px;*/
+        /*}*/
 
-        .page-item.disabled .page-link {
-            color: #ccc;
-            pointer-events: none;
-        }
+        /*.page-item.disabled .page-link {*/
+        /*    color: #ccc;*/
+        /*    pointer-events: none;*/
+        /*}*/
 
-        .page-item.active .page-link {
-            background-color: #007bff;
-            color: white;
-        }
+        /*.page-item.active .page-link {*/
+        /*    background-color: #007bff;*/
+        /*    color: white;*/
+        /*}*/
 
-        .page-link:hover {
-            background-color: #f1f1f1;
-        }
-
+        /*.page-link:hover {*/
+        /*    background-color: #f1f1f1;*/
+        /*}*/
     </style>
 </head>
 
 <div th:replace="/fragments/header.html :: fragment-header"></div>
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
-<!--<link rel="stylesheet" href="/static/css/myInfo.css">-->
+<link rel="stylesheet" href="/css/boardList.css">
 
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
@@ -151,86 +149,90 @@
             <input type="submit" class="button" value="검색">
         </form>
 
-            <table border="1" class="input--table">
-                <thead>
+        <table border="1" class="input--table">
+            <thead th:unless="${list == null or list.isEmpty()}">
+            <tr>
+                <th>글 번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:if="${#lists.size(list) > 0}" th:each="list : ${list}">
+
                 <tr>
-                    <th>글 번호</th>
-                    <th>제목</th>
-                    <th>조회수</th>
-                    <th>작성 시간</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.size(list) > 0}" th:each="list : ${list}">
                     <td th:text="${list.boardIdx}"></td>
                     <td class="title"><a href="/board/openBoardDetail.do?boardIdx="
                                          th:attrappend="href=${list.boardIdx}"
                                          th:text="${list.title}"></a></td>
+                    <td th:text="${list.creatorId}"></td>
                     <td th:text="${list.hitCnt}"></td>
-                    <td th:text="${list.createdDatetime}"></td>
                 </tr>
-                <tr th:unless="${#lists.size(list) > 0}">
-                    <td colspan="4">조회된 결과가 없습니다.</td>
-                </tr>
-                </tbody>
-            </table>
-            <a th:href="@{/board/openBoardWrite.do}" class="btn btn-dark">새 글 작성</a>
-            <br>
-
-            <div th:if="${!list.isEmpty()}">
-                <!-- 전역 변수 선언 -->
-                <nav
-                        th:with="pageNumber = ${list.pageable.pageNumber}, pageSize = ${list.pageable.pageSize}, totalPages = ${list.totalPages}, startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1}, tempEndPage = ${startPage + pageSize - 1}, endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})"
-                        aria-label="Page navigation"
-                        class="pagination-nav"
-                >
-                    <ul class="pagination">
-                        <!-- 처음으로 이동 -->
-                        <li th:classappend="${pageNumber < pageSize} ? 'disabled'" class="page-item">
-                            <a class="page-link" th:href="@{/board/openBoardList.do(page=0)}">
-                                <span>&laquo;</span>
-                                <span class="sr-only">First</span>
-                            </a>
-                        </li>
-
-                        <!-- 이전으로 이동 -->
-                        <li th:classappend="${list.first} ? 'disabled'" class="page-item">
-                            <a class="page-link"
-                               th:href="${list.first} ? '#' : @{/board/openBoardList.do(page=${pageNumber - 1})}"
-                               aria-label="Previous">
-                                <span aria-hidden="true">&lt;</span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                        </li>
-
-                        <!-- 특정 페이지로 이동 -->
-                        <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                            th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-                            <a th:text="${page}" class="page-link"
-                               th:href="@{/board/openBoardList.do(page=${page - 1})}"></a>
-                        </li>
-
-                        <!-- 다음으로 이동 -->
-                        <li th:classappend="${list.last} ? 'disabled'" class="page-item">
-                            <a class="page-link"
-                               th:href="${list.last} ? '#' : @{/board/openBoardList.do(page=${pageNumber + 1})}"
-                               aria-label="Next">
-                                <span aria-hidden="true">&gt;</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </li>
-
-                        <!-- 마지막으로 이동 -->
-                        <li th:classappend=" ${T(java.lang.Math).floor(totalPages / pageSize) * pageSize - 1 <= startPage} ? 'disabled'"
-                            class="page-item">
-                            <a class="page-link" th:href="@{/board/openBoardList.do(page=${totalPages - 1})}">
-                                <span>&raquo;</span>
-                                <span class="sr-only">Last</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
+            <div th:if="${list == null or list.isEmpty()}">
+                <p class="no-products">게시물이 존재하지 않거나, 검색한 게시물을 찾을 수 없습니다. <br> 게시물을 작성해보세요!</p>
+            </div>
+            </tbody>
+        </table>
+        <br><br>
+        <a th:href="@{/board/openBoardWrite.do}" class="btn btn-dark">새 글 작성</a>
+        <br>
+
+        <div th:if="${!list.isEmpty()}">
+            <!-- 전역 변수 선언 -->
+            <nav
+                    th:with="pageNumber = ${list.pageable.pageNumber}, pageSize = ${list.pageable.pageSize}, totalPages = ${list.totalPages}, startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1}, tempEndPage = ${startPage + pageSize - 1}, endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})"
+                    aria-label="Page navigation"
+                    class="pagination-nav"
+            >
+                <ul class="pagination">
+                    <!-- 처음으로 이동 -->
+                    <li th:classappend="${pageNumber < pageSize} ? 'disabled'" class="page-item">
+                        <a class="page-link" th:href="@{/board/openBoardList.do(page=0)}">
+                            <span>&laquo;</span>
+                            <span class="sr-only">First</span>
+                        </a>
+                    </li>
+
+                    <!-- 이전으로 이동 -->
+                    <li th:classappend="${list.first} ? 'disabled'" class="page-item">
+                        <a class="page-link"
+                           th:href="${list.first} ? '#' : @{/board/openBoardList.do(page=${pageNumber - 1})}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+
+                    <!-- 특정 페이지로 이동 -->
+                    <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
+                        th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+                        <a th:text="${page}" class="page-link"
+                           th:href="@{/board/openBoardList.do(page=${page - 1})}"></a>
+                    </li>
+
+                    <!-- 다음으로 이동 -->
+                    <li th:classappend="${list.last} ? 'disabled'" class="page-item">
+                        <a class="page-link"
+                           th:href="${list.last} ? '#' : @{/board/openBoardList.do(page=${pageNumber + 1})}"
+                           aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+
+                    <!-- 마지막으로 이동 -->
+                    <li th:classappend=" ${T(java.lang.Math).floor(totalPages / pageSize) * pageSize - 1 <= startPage} ? 'disabled'"
+                        class="page-item">
+                        <a class="page-link" th:href="@{/board/openBoardList.do(page=${totalPages - 1})}">
+                            <span>&raquo;</span>
+                            <span class="sr-only">Last</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
     </main>
 </div>

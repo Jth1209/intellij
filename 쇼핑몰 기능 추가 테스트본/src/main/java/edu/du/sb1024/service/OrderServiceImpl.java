@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrdersService {
     }
 
     @Override
-    public void deleteOrder(int orderIdx) throws Exception {
+    public void deleteOrder(Long orderIdx) throws Exception {
         orderMapper.deleteOrder(orderIdx);
     }
 
@@ -56,26 +56,35 @@ public class OrderServiceImpl implements OrdersService {
     }
 
     @Override
+    public List<OrderFileDto> selectOrderFileList(int orderIdx) throws Exception {
+        return orderMapper.selectOrderFileList(orderIdx);
+    }
+
+    @Override
     public List<OrderDto> configuration(String type, String keyword) throws Exception {
         List<OrderDto> list = new ArrayList<>();
-        if (type.equals("all")) {
-            if (keyword.equals("no")) {
-                list = orderMapper.selectOrderList();
-            } else {
-                list = orderMapper.selectOrderListWithKeyword(keyword);
-            }
-        } else if (type.equals("aggi")) {
-            if (keyword.equals("no")) {
-                list = orderMapper.selectOrderListWithAggi(type);
-            } else {
-                list = orderMapper.selectOrderListWithKeywordAndAggi(keyword, type);
-            }
-        } else if (type.equals("etc")) {
-            if (keyword.equals("no")) {
-                list = orderMapper.selectOrderListWithEtc(type);
-            } else {
-                list = orderMapper.selectOrderListWithKeywordAndEtc(keyword, type);
-            }
+        switch (type) {
+            case "all":
+                if (keyword.equals("no")) {
+                    list = orderMapper.selectOrderList();
+                } else {
+                    list = orderMapper.selectOrderListWithKeyword(keyword);
+                }
+                break;
+            case "aggi":
+                if (keyword.equals("no")) {
+                    list = orderMapper.selectOrderListWithAggi(type);
+                } else {
+                    list = orderMapper.selectOrderListWithKeywordAndAggi(keyword, type);
+                }
+                break;
+            case "etc":
+                if (keyword.equals("no")) {
+                    list = orderMapper.selectOrderListWithEtc(type);
+                } else {
+                    list = orderMapper.selectOrderListWithKeywordAndEtc(keyword, type);
+                }
+                break;
         }
         return list;
     }

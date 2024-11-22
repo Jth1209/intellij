@@ -66,4 +66,14 @@ public class MemberRegisterService {
 		}
 		return count;
 	}
+
+	public boolean findUser(String email, String username){
+		boolean count = false;
+		EntityManager em = emf.createEntityManager();
+		List<Member> mem = em.createQuery("select m from Member m where m.email=:email and m.username = :username",Member.class).setParameter("email", email).setParameter("username", username).getResultList();
+		if(!mem.isEmpty()){
+			count = true;
+		}
+		return count;
+	}
 }

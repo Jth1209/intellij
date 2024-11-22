@@ -15,9 +15,11 @@ public interface OrdersService {
 
     void updateOrder(OrderDto order) throws Exception;
 
-    void deleteOrder(int orderIdx) throws Exception;
+    void deleteOrder(Long orderIdx) throws Exception;
 
     OrderFileDto selectOrderFileInformation(int idx, int orderIdx) throws Exception;
+
+    List<OrderFileDto> selectOrderFileList(int orderIdx) throws Exception;
 
     List<OrderDto> configuration(String type , String keyword) throws Exception;
 }

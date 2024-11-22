@@ -1,0 +1,104 @@
+h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* 테이블 스타일 */
+.input--table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.input--table th, .input--table td {
+    padding: 15px;
+    text-align: center; /* 중앙 정렬 */
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.input--table th {
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.input--table td {
+    background-color: #f9f9f9;
+}
+
+.input--table tr:hover td {
+    background-color: #f1f8ff;
+}
+
+/* 버튼 스타일 */
+.input--table td a.btn, .input--table td button {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #e74c3c;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.input--table td a.btn:hover, .input--table td button:hover {
+    background-color: #c0392b;
+}
+
+.input--table td button.btn-warning {
+    background-color: #f39c12;
+}
+
+.input--table td button.btn-warning:hover {
+    background-color: #e67e22;
+}
+
+.input--table td button.btn-success {
+    background-color: #2ecc71;
+}
+
+.input--table td button.btn-success:hover {
+    background-color: #27ae60;
+}
+
+/* 각 열 너비 조정 */
+.col1 { width: 10%; } /* 주문 번호 */
+.col2 { width: 10%; } /* 상품 번호 */
+.col3 { width: 30%; } /* 상품 이름 */
+.col4 { width: 15%; } /* 상품 개수 */
+.col5 { width: 10%; } /* 상품 가격 */
+.col6 { width: 15%; } /* 검토 상태 */
+.col7 { width: 20%; } /* 상품 현황 및 버튼 */
+
+/* 메시지 및 버튼 스타일 */
+.no-products {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    margin-top: 50px;
+}
+
+.update--button {
+    display: block;
+    width: 200px;
+    margin: 30px auto;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.update--button:hover {
+    background-color: #0056b3;
+}

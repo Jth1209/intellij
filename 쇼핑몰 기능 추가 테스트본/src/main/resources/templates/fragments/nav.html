@@ -1,5 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .main--menu {
+        background-color: #343a40;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .logo {
+        height: 40px;  /* 로고 크기 고정 */
+    }
+
+    .main--menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    .main--menu ul li {
+        margin: 0 15px;
+        display: inline-block;
+    }
+
+    .main--menu ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;  /* 글씨 크기 고정 */
+        font-weight: 500;
+    }
+
+    .main--menu ul li a:hover {
+        color: #9BD2EC;
+        text-decoration: underline;
+    }
+
+    .main--menu ul li:first-child {
+        font-weight: bold;
+    }
+</style>
     <div th:fragment="fragment-nav">
         <header class="d-flex flex-column">
             <div class="header--top">
@@ -20,16 +73,17 @@
             </div>
 
             <nav class="main--menu">
-                <a href="/"><img class="logo" alt="" src="/static/images2/logo.png"></a>
-                <!-- userRole에 따라 메뉴 다르게 표시 -->
+                <a href="/"><img class="logo" alt="logo" src="/static/images2/logo.png"></a>
                 <ul>
-                    <li><a th:href="@{/}">홈</a>
-                    <li><a th:href="@{/myinfo}">MY</a>
+                    <li><a th:href="@{/}">홈</a></li>
+                    <li><a th:href="@{/myinfo}">MY</a></li>
                     <li><a th:href="@{/board/openBoardList.do}">게시판</a></li>
-                    <li><a th:href="@{/survey.do}">설문조사</a>
-                    <li><a href="/orders">물품 신청</a>
+                    <li><a th:href="@{/survey.do}">설문조사</a></li>
+                    <li><a href="/orders">물품 신청</a></li>
+                    <li><a th:href="@{/product/main}">거래소</a></li>
                 </ul>
             </nav>
+
         </header>
     </div>
 </html>

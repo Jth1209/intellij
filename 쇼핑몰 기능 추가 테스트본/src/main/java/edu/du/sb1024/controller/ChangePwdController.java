@@ -1,6 +1,7 @@
 package edu.du.sb1024.controller;
 
 import edu.du.sb1024.entity.AuthInfo;
+import edu.du.sb1024.entity.PasswordCheck;
 import edu.du.sb1024.spring.ChangePasswordService;
 import edu.du.sb1024.spring.WrongIdPasswordException;
 import edu.du.sb1024.validation.ChangePwdCommand;
@@ -10,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -49,5 +49,15 @@ public class ChangePwdController {
 			errors.rejectValue("currentPassword","notMatching");
 			return "/info/auth/changePwd";
 		}
+    }
+
+    @PostMapping("/user")
+    public String form2(@Valid @ModelAttribute("pc") PasswordCheck pc, Errors errors, @RequestParam("email") String email) {
+        if (errors.hasErrors()) {
+            return "/info/auth/changePwd2";
+        }
+        System.out.println(email);
+        changePasswordService.changePassword2(email,pc.getPassword());
+        return "redirect:/login";
     }
 }

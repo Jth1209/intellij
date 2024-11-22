@@ -7,7 +7,7 @@
         SELECT board_idx,
                title,
                hit_cnt,
-               DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime
+               creator_id
         FROM t_board
         WHERE deleted_yn = 'N'
         ORDER BY board_idx DESC
@@ -19,7 +19,7 @@
         SELECT board_idx,
                title,
                hit_cnt,
-               DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime
+               creator_id
         FROM t_board
         WHERE deleted_yn = 'N' and title LIKE CONCAT('%', #{keyword}, '%')
         ORDER BY board_idx DESC
@@ -31,7 +31,7 @@
         SELECT board_idx,
                title,
                hit_cnt,
-               DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime
+               creator_id
         FROM t_board
         WHERE deleted_yn = 'N' and title LIKE CONCAT('%', #{keyword}, '%') and type LIKE CONCAT('%', #{type}, '%')
         ORDER BY board_idx DESC
@@ -43,7 +43,7 @@
         SELECT board_idx,
                title,
                hit_cnt,
-               DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime
+               creator_id
         FROM t_board
         WHERE deleted_yn = 'N' and title LIKE CONCAT('%', #{keyword}, '%') and type LIKE CONCAT('%', #{type}, '%')
         ORDER BY board_idx DESC
@@ -55,7 +55,7 @@
         SELECT board_idx,
                title,
                hit_cnt,
-               DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime
+               creator_id
         FROM t_board
         WHERE deleted_yn = 'N' and type LIKE CONCAT('%', #{type}, '%')
         ORDER BY board_idx DESC
@@ -67,7 +67,7 @@
         SELECT board_idx,
                title,
                hit_cnt,
-               DATE_FORMAT(created_datetime, '%Y.%m.%d %H:%i:%s') AS created_datetime
+               creator_id
         FROM t_board
         WHERE deleted_yn = 'N' and type LIKE CONCAT('%', #{type}, '%')
         ORDER BY board_idx DESC

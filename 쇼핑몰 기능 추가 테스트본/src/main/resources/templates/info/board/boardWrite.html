@@ -156,8 +156,9 @@
 
             <div class="form-group">
                 <label for="contents">내용</label>
-                <textarea id="contents" name="contents" class="form-control" required
-                          placeholder="게시글 내용을 작성하세요"></textarea>
+                <textarea id="contents"  name="contents" class="form-control" required
+                          placeholder="게시글 내용을 작성하세요" maxlength="80"></textarea>
+                <div id="contentCount">0/80</div>
             </div>
 
             <!-- 파일 첨부 부분 -->
@@ -174,9 +175,16 @@
                 <button type="reset" class="btn btn-secondary">초기화</button>
             </div>
         </form>
-
     </main>
 </div>
+<script>
+    const textarea = document.getElementById('contents');
+    const charCount = document.getElementById('contentCount');
+
+    textarea.addEventListener('input', () => {
+        charCount.textContent = `${textarea.value.length}/80`;
+    });
+</script>
 <div th:replace="/fragments/footer.html :: fragment-footer"></div>
 </body>
 </html>

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="/fragments/header.html :: fragment-header"></div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>장바구니</title>
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
-<link rel="stylesheet" href="/css/myInfo.css">
+<link rel="stylesheet" href="/css/order.css">
 
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
@@ -17,10 +20,7 @@
         <div class="sub--menu--mid">
             <table class="sub--menu--table" border="1">
                 <tr>
-                    <td><a href="/info/order" class="selected--menu">내 상품 조회</a></td>
-                </tr>
-                <tr>
-                    <td><a href="/info/item" class="selected--menu">상품 등록</a></td>
+                    <td><a href="/orders" class="selected--menu">내 상품 조회</a></td>
                 </tr>
             </table>
         </div>
@@ -34,13 +34,13 @@
         <!-- 상품이 있을 때 -->
         <div th:if="${orders != null && !orders.isEmpty()}">
             <h2>등록된 상품</h2>
-            <!-- 상품 테이블 -->
             <table class="input--table">
                 <colgroup>
                     <col class="col1">
                     <col class="col2">
                     <col class="col3">
                     <col class="col4">
+                    <col class="col5">
                 </colgroup>
                 <thead>
                 <tr>
@@ -49,40 +49,34 @@
                     <th>상품 개수</th>
                     <th>상품 가격</th>
                     <th>검토 상태</th>
+                    <th>삭제</th>
                 </tr>
                 </thead>
-                <tbody th:each="product : ${orders}">
-                <!-- 상품 목록 반복문 -->
+                <tbody
+                        th:each="product : ${orders}">
                 <tr>
-                    <td th:text="${product.id}"></td>
+                    <td th:text="${product.id}">상품 번호</td>
                     <td th:text="${product.name}">상품 이름</td>
                     <td th:text="${product.quantity}">상품 개수</td>
                     <td th:text="${product.price}">상품 가격</td>
                     <td th:text="${product.status}">검토 상태</td>
                     <td>
-                        <a class="btn btn-danger" th:href="@{/orders/delete/{id}(id=${product.id})}">Delete</a>
+                        <a class="btn" th:href="@{/orders/delete/{id}(id=${product.id})}">삭제</a>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <p class="no-products">삭제를 누를 시, 확인절차 없이 바로 삭제됩니다.</p>
 
-        <!-- 등록된 상품이 없을 때 -->
+        <!-- 상품이 없을 때 -->
         <div th:if="${orders == null || orders.isEmpty()}">
-            <p>등록된 상품이 없습니다.</p>
+            <p class="no-products">장바구니에 담긴 상품이 없습니다. <br> 거래소를 사용해보세요! </p>
         </div>
-            <button type="button" onclick="location.href='/orders/new'" class="btn btn-dark update--button">상품 등록
-            </button>
     </main>
-
 </div>
-
-
 <footer>
     <!-- 필요 시 -->
 </footer>
-
-</div>
-
 </body>
 </html>

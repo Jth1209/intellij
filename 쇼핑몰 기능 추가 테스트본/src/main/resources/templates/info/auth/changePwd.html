@@ -44,6 +44,7 @@
         <h1>비밀번호 변경</h1>
         <div class="split--div"></div>
         <form th:action="@{/edit/changePassword}" th:object="${command}" method="post">
+            <input type="hidden" value="email"/>
             <p>
                 <label>
                     <span th:text="${#messages.msg('currentPassword')}">Current Password:</span><br>

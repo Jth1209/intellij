@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        .password-change-form {
+            background: #ffffff;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* 부드러운 카드 그림자 */
+            border-radius: 10px; /* 둥근 모서리 */
+            width: 100%;
+            max-width: 400px; /* 최대 너비 */
+            margin: auto;
+        }
+
+        .form-label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #343a40;
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffffff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .text-danger {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .d-grid {
+            display: grid;
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+
+</head>
+<div th:replace="/fragments/header.html :: fragment-header"></div>
+<body>
+<div th:replace="/fragments/nav.html :: fragment-nav"></div>
+<link rel="stylesheet" href="/css/myInfo.css">
+
+<!-- 세부 메뉴 + 메인 -->
+<div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
+    <!-- 세부 메뉴 div-->
+    <div class="sub--menu">
+        <div class="sub--menu--top">
+            <h2>로그인</h2>
+        </div>
+        <!-- 메뉴 -->
+        <div class="sub--menu--mid">
+            <table class="sub--menu--table" border="1">
+                <tr>
+                    <td><a href="/login" class="selected--menu">로그인</a></td>
+                </tr>
+                <tr>
+                    <td><a href="/register">회원가입</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 메인 div -->
+    <main>
+        <h1>비밀번호 변경</h1>
+        <div class="split--div"></div>
+        <form th:action="@{/edit/changePassword/user}" th:object="${pc}" method="post" class="password-change-form">
+            <input type="hidden" th:value="${email}" name="email"/>
+
+            <!-- 현재 비밀번호 -->
+            <div class="mb-3">
+                <label for="password" class="form-label">
+                    <span th:text="${#messages.msg('newPassword')}">Current Password:</span>
+                </label>
+                <input type="password" th:field="*{password}" class="form-control" placeholder="새로운 비밀번호 입력"/>
+                <div th:if="${#fields.hasErrors('password')}" th:each="error : ${#fields.errors('password')}"
+                     th:text="${error}" class="text-danger"></div>
+            </div>
+
+            <!-- 새 비밀번호 -->
+            <div class="mb-3">
+                <label for="passwordConfirm" class="form-label">
+                    <span th:text="'비밀번호 확인'">New Password:</span>
+                </label>
+                <input type="password" th:field="*{passwordConfirm}" class="form-control" placeholder="비밀번호 확인"/>
+                <div th:if="${#fields.hasErrors('passwordConfirm')}"
+                     th:each="error : ${#fields.errors('passwordConfirm')}" th:text="${error}"
+                     class="text-danger"></div>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <div class="d-grid">
+                <input type="submit" th:value="${#messages.msg('change.btn')}" class="btn btn-primary"/>
+            </div>
+        </form>
+
+    </main>
+</div>
+
+
+<div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</body>
+</html>

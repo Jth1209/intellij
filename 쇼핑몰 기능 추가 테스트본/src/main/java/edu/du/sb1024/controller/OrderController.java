@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.servlet.http.HttpSession;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Controller
@@ -43,10 +45,11 @@ public class OrderController {
     public String getAllOrders(Model model,HttpSession session) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         EntityManager em = emf.createEntityManager();
-//        List<Order> orders = em.createQuery("select o from Order o where o.member_id = :mid",Order.class).setParameter("mid",authInfo.getId()).getResultList();
-        List<Products> orders = orderService.getAllOrders();
-//        orders.removeIf(order -> !(order.getMember().getId().equals(authInfo.getId())));
+        Member member = em.find(Member.class,authInfo.getId());
+        List<Products> orders = em.createQuery("select p from Products p where p.member = :member",Products.class).setParameter("member", member).getResultList();
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
         model.addAttribute("orders", orders);
+        model.addAttribute("id",authInfo.getId());
         return "/info/order/order";
     }
 

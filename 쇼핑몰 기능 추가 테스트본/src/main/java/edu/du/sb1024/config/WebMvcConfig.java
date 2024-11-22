@@ -9,7 +9,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SessionInterceptor()).addPathPatterns("/myinfo","/board/**","/survey.do","/orders/**","/admin","/shipments")//로그인,메인 페이지,회원가입 페이지를 제외한 모든 부분에 적용.
+        registry.addInterceptor(new SessionInterceptor()).addPathPatterns("/myinfo","/board/**","/survey.do","/orders/**","/admin","/shipments","/product/**")//로그인,메인 페이지,회원가입 페이지를 제외한 모든 부분에 적용.
                 .excludePathPatterns("/css/**", "/js/**", "/images/**", "/fonts/**","/fragments/**");
     }
 }

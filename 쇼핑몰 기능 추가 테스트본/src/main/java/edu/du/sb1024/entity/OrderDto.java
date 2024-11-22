@@ -14,10 +14,11 @@ public class OrderDto {
     private int id;
     private String name;
     private int quantity;
-    private double price;
+    private String price;
+    private int cnt;
     private String des;
     private String status;
-    private Long mid;
+    private Long memberId;
     private String type;
-    private List<OrderFileDto> files;
+    private List<OrderFileDto> fileList;
 }

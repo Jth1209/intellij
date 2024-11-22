@@ -34,7 +34,7 @@ public class CommentController {
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         Board board = em.find(Board.class,id);
-        Comment comment = Comment.builder().nick(authInfo.getNick()).board(board).content(content).createdTime(new Date().toString()).build();
+        Comment comment = Comment.builder().nick(authInfo.getNick()).board(board).content(content).createdTime(new Date().toLocaleString()).build();
         em.persist(comment);
         em.getTransaction().commit();
         em.close();

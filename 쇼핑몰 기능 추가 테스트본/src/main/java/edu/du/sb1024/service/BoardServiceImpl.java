@@ -71,24 +71,28 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public List<BoardDto> configuration(String type, String keyword) throws Exception {
         List<BoardDto> list = new ArrayList<>();
-        if (type.equals("all")) {
-            if (keyword.equals("no")) {
-                list = boardMapper.selectBoardList();
-            } else {
-                list = boardMapper.selectBoardListWithKeyword(keyword);
-            }
-        } else if (type.equals("common")) {
-            if (keyword.equals("no")) {
-                list = boardMapper.selectBoardListWithCommon(type);
-            } else {
-                list = boardMapper.selectBoardListWithKeywordAndCommon(keyword, type);
-            }
-        } else if (type.equals("info")) {
-            if (keyword.equals("no")) {
-                list = boardMapper.selectBoardListWithInfo(type);
-            } else {
-                list = boardMapper.selectBoardListWithKeywordAndInfo(keyword, type);
-            }
+        switch (type) {
+            case "all":
+                if (keyword.equals("no")) {
+                    list = boardMapper.selectBoardList();
+                } else {
+                    list = boardMapper.selectBoardListWithKeyword(keyword);
+                }
+                break;
+            case "common":
+                if (keyword.equals("no")) {
+                    list = boardMapper.selectBoardListWithCommon(type);
+                } else {
+                    list = boardMapper.selectBoardListWithKeywordAndCommon(keyword, type);
+                }
+                break;
+            case "info":
+                if (keyword.equals("no")) {
+                    list = boardMapper.selectBoardListWithInfo(type);
+                } else {
+                    list = boardMapper.selectBoardListWithKeywordAndInfo(keyword, type);
+                }
+                break;
         }
         return list;
     }

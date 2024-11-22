@@ -1,13 +1,11 @@
 package edu.du.sb1024.controller;
 
 import edu.du.sb1024.encoder.PasswordEncoder;
-import edu.du.sb1024.entity.AuthInfo;
-import edu.du.sb1024.entity.Board;
-import edu.du.sb1024.entity.BoardDto;
-import edu.du.sb1024.entity.Member;
+import edu.du.sb1024.entity.*;
 import edu.du.sb1024.repository.MemberRepository;
 import edu.du.sb1024.service.AuthService;
 import edu.du.sb1024.service.BoardService;
+import edu.du.sb1024.service.OrdersService;
 import edu.du.sb1024.spring.MemberRegisterService;
 import edu.du.sb1024.validation.ChangePwdCommand;
 import edu.du.sb1024.validation.NickCheckValidator;
@@ -35,6 +33,8 @@ public class BeginController {
     @Autowired
     BoardService boardService;
     @Autowired
+    OrdersService ordersService;
+    @Autowired
     EntityManagerFactory emf;
     @Autowired
     MemberRegisterService mrs;
@@ -42,7 +42,9 @@ public class BeginController {
     @GetMapping("/")
     public String index(Model model) throws Exception {
         List<BoardDto> boards = boardService.selectFiveBoard();
+        List<OrderDto> orders = ordersService.selectOrderList();
         model.addAttribute("boards", boards);
+        model.addAttribute("orders", orders);
         return "/allow/index";
     }
 

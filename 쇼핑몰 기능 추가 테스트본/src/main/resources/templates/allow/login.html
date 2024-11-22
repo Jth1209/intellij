@@ -1,6 +1,75 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="/fragments/header.html :: fragment-header"></div>
+<head>
+    <title>로그인</title>
+    <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <style>
+        .login-form {
+            background: #fff;
+            padding: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 효과 */
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px; /* 최대 너비 */
+            margin: auto; /* 화면 중앙 정렬 */
+        }
+
+        .form-label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #343a40;
+        }
+
+        .form-control {
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .text-danger {
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .text-end {
+            text-align: right;
+        }
+
+        .d-grid {
+            display: grid;
+        }
+
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+
+    </style>
+
+</head>
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
 <link rel="stylesheet" href="/css/myInfo.css">
@@ -26,34 +95,41 @@
     <main>
         <h1>로그인</h1>
         <div class="split--div"></div>
-        <form th:action="@{/login}" th:object="${loginCommand}" method="post">
-            <p>
-                <label>
-                    <input type="hidden" th:field="*{rememberEmail}"/>
-                    <div th:if="${#fields.hasErrors('rememberEmail')}" th:errors="*{rememberEmail}"></div>
-                </label>
-            </p>
-            <p>
-                <label>
-                    <span th:text="${#messages.msg('email')}">Email:</span><br>
-                    <input type="email" th:field="*{email}"/>
-                    <div th:if="${#fields.hasErrors('email')}" th:each="error : ${#fields.errors('email')}"
-                         th:text="${error}"></div>
-                </label>
-            </p>
-            <p>
-                <label>
-                    <span th:text="${#messages.msg('password')}">Password:</span><br>
-                    <input type="password" th:field="*{password}"/>
-                    <div th:if="${#fields.hasErrors('password')}" th:each="error : ${#fields.errors('password')}"
-                         th:text="${error}"></div>
-                </label>
-            </p>
-            <input type="submit" th:value="${#messages.msg('login.btn')}"/>
-        </form>
+            <form th:action="@{/login}" th:object="${loginCommand}" method="post" class="login-form">
+                <input type="hidden" th:field="*{rememberEmail}" />
+                <div class="text-danger" th:if="${#fields.hasErrors('rememberEmail') and !(#fields.hasErrors('email') and #fields.hasErrors('password'))}" th:each="error : ${#fields.errors('rememberEmail')}" th:text="${error}"></div>
+                <!-- 이메일 입력 -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        <span th:text="${#messages.msg('email')}">이메일</span>
+                    </label>
+                    <input type="email" id="email" class="form-control" th:field="*{email}" placeholder="이메일을 입력하세요" />
+                    <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:each="error : ${#fields.errors('email')}" th:text="${error}"></div>
+                </div>
+
+                <!-- 비밀번호 입력 -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        <span th:text="${#messages.msg('password')}">비밀번호</span>
+                    </label>
+                    <input type="password" id="password" class="form-control" th:field="*{password}" placeholder="비밀번호를 입력하세요" />
+                    <div class="text-danger" th:if="${#fields.hasErrors('password')}" th:each="error : ${#fields.errors('password')}" th:text="${error}"></div>
+                </div>
+
+                <!-- 비밀번호 찾기 링크 -->
+                <div class="mb-3 text-end">
+                    <a th:href="@{/login/findPassword}" class="text-decoration-none small" th:text="'혹시 비밀번호를 잃어버리셨나요?'"></a>
+                </div>
+
+                <!-- 로그인 버튼 -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary" th:text="${#messages.msg('login.btn')}">로그인</button>
+                </div>
+            </form>
+
     </main>
 </div>
-
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>-->
 
 <div th:replace="/fragments/footer.html :: fragment-footer"></div>
 </body>

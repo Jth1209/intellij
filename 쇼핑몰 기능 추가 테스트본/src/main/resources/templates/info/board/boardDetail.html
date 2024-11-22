@@ -5,137 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
     <style>
-        .board_detail {
-            width: 100%;
-            margin: 20px 0;
-            border-collapse: collapse;
-        }
-
-        .board_detail caption {
-            font-size: 1.5em;
-            font-weight: bold;
-            padding: 10px 0;
-        }
-
-        .board_detail th,
-        .board_detail td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .view_text textarea {
-            width: 100%;
-            height: 150px;
-            border-radius: 4px;
-        }
-
-        /* 첨부파일 리스트 */
-        .file-list {
-            margin-top: 20px;
-        }
-
-        .file-list h4 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        .file-item {
-            margin-bottom: 10px;
-        }
-
-        .file-item a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .file-item a:hover {
-            text-decoration: underline;
-        }
-
-        /* 이미지 리스트 */
-        .image-list {
-            margin-top: 20px;
-        }
-
-        .image-list h4 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        .image-item {
-            display: inline-block;
-            margin: 10px;
-            text-align: center;
-        }
-
-        .image-item img {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 8px;
-            margin-bottom: 5px;
-        }
-
-        /* 댓글 영역 */
-        .comment-section {
-            margin-top: 40px;
-        }
-
-        .comment-form textarea {
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            margin-bottom: 10px;
-        }
-
-        .comment-form button {
-            padding: 8px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-        }
-
-        .comment-form button:hover {
-            background-color: #0056b3;
-        }
-
-        /* 버튼 스타일 */
-        .btn {
-            display: inline-block;
-            padding: 8px 16px;
-            text-align: center;
-            border-radius: 4px;
-            font-size: 14px;
-            margin: 5px;
-            cursor: pointer;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn:hover {
-            opacity: 0.8;
+        /* 글자 수 표시 */
+        #charCount {
+            font-size: 0.9em; /* 글자 크기 조정 */
+            color: gray; /* 회색 텍스트 */
+            margin: 0;
+            align-items: flex-end; /* 오른쪽으로 정렬 */
         }
 
     </style>
@@ -144,7 +19,7 @@
 <div th:replace="/fragments/header.html :: fragment-header"></div>
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
-<link rel="stylesheet" href="/css/myInfo.css">
+<link rel="stylesheet" href="/css/boardDetail.css">
 
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
@@ -199,8 +74,9 @@
                 <tr th:if="${uname == board.creatorId}">
                     <td colspan="4" class="view_text">
                         <textarea title="내용" id="contentsT" name="contents" class="form-control" rows="6"
-                                  th:text="${board.contents}"></textarea>
+                                  th:text="${board.contents}" maxlength="80"></textarea>
                     </td>
+                    <td><div id="contentCount">0/80</div></td>
                 </tr>
                 <tr th:unless="${uname == board.creatorId}">
                     <th scope="row">제목</th>
@@ -246,37 +122,45 @@
             <h3>댓글</h3>
             <div class="comment-form">
                 <form th:action="@{/comment/{id}(id=${board.boardIdx})}" method="post">
-                    <textarea name="content" rows="4" placeholder="댓글을 작성하세요." required class="form-control"></textarea>
-                    <button type="submit" class="btn btn-dark">댓글 작성</button>
-                    <div th:if="${!#lists.isEmpty(comments)}" th:each="comment : ${comments}">
-                        <table>
-                            <tr>
-                                <td th:text="${comment.nick}"></td>
-                                <td th:text="${comment.createdTime}"/>
-                            </tr>
-                            <tr>
-                                <td th:text="${comment.content}"></td>
-                                <td th:if="${session.authInfo.nick.equals(comment.nick)} or ${session.authInfo.role.equals('ADMIN')}">
-                                    <a th:href="@{/comment/delete/{id}/{bid}(id=${comment.id},bid=${board.boardIdx})}" th:text="'삭제'"></a></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div th:unless="${!#lists.isEmpty(comments)}">
-                        <p th:text="'현재 작성된 댓글이 없습니다! 에티켓을 지키며 댓글을 달아주세요.'"></p>
-                    </div>
+                    <textarea name="content" id="commentInput" rows="4" maxlength="80" placeholder="댓글을 작성하세요."
+                              required></textarea>
+                    <div id="charCount">0/80</div>
+                    <button type="submit">댓글 작성</button>
                 </form>
+            </div>
+
+            <div class="comment-list">
+                <div th:if="${!#lists.isEmpty(comments)}">
+                    <div th:each="comment : ${comments}" class="comment">
+                        <div class="comment-header">
+                            <span class="nick" th:text="${comment.nick}"></span>
+                            <span class="created-time" th:text="${comment.createdTime}"></span>
+                        </div>
+                        <div class="comment-content" th:utext="${comment.content}"></div>
+                        <div class="comment-actions"
+                             th:if="${session.authInfo.nick.equals(comment.nick)} or ${session.authInfo.role.equals('ADMIN')}">
+                            <a th:href="@{/comment/delete/{id}/{bid}(id=${comment.id},bid=${board.boardIdx})}">삭제</a>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${!#lists.isEmpty(comments)}" class="no-comments">
+                    <p>현재 작성된 댓글이 없습니다! 에티켓을 지키며 댓글을 달아주세요.</p>
+                </div>
             </div>
         </div>
 
+        <div th:if="${uname == board.creatorId}">
+            <a href="#this" id="listA" class="btn btn-secondary">목록으로</a>
+            <a href="#this" id="edit" class="btn btn-primary">수정하기</a>
+            <a href="#this" id="deleteA" class="btn btn-danger">삭제하기</a>
+        </div>
         <!-- 관리자가 아닌 경우 -->
         <div th:if="${uname != board.creatorId} and ${!session.authInfo.role.equals('ADMIN')}">
             <a href="#this" id="listF" class="btn btn-secondary">목록으로</a>
         </div>
-
         <!-- 관리자인 경우 -->
-        <div th:if="${uname == board.creatorId} or ${session.authInfo.role.equals('ADMIN')}">
+        <div th:if="${uname != board.creatorId} and ${session.authInfo.role.equals('ADMIN')}">
             <a href="#this" id="listT" class="btn btn-secondary">목록으로</a>
-            <a href="#this" id="edit" class="btn btn-primary">수정하기</a>
             <a href="#this" id="delete" class="btn btn-danger">삭제하기</a>
         </div>
 
@@ -313,6 +197,21 @@
                     frm.action = "/board/deleteBoard.do";
                     frm.submit();
                 });
+            });
+        </script>
+        <script>
+            const textarea = document.getElementById('commentInput');
+            const charCount = document.getElementById('charCount');
+
+            textarea.addEventListener('input', () => {
+                charCount.textContent = `${textarea.value.length}/80`;
+            });
+
+            const textarea1 = document.getElementById('contentsT');
+            const charCount1 = document.getElementById('contentCount');
+
+            textarea1.addEventListener('input', () => {
+                charCount1.textContent = `${textarea1.value.length}/80`;
             });
         </script>
     </main>

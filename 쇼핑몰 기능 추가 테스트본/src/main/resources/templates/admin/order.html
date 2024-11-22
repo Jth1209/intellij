@@ -3,7 +3,7 @@
 <div th:replace="/fragments/header.html :: fragment-header"></div>
 <body>
 <div th:replace="/fragments/nav.html :: fragment-nav"></div>
-<link rel="stylesheet" href="/css/myInfo.css">
+<link rel="stylesheet" href="/css/shipment.css">
 
 <!-- 세부 메뉴 + 메인 -->
 <div class="d-flex justify-content-center align-items-start" style="min-width: 100em;">
@@ -39,16 +39,19 @@
 
         <!-- admin 역할일 때만 표시 -->
         <div th:if="${session.authInfo.role.equals('ADMIN')}">
-            <h2>등록된 상품</h2>
+            <h2>등록된 상품 관리</h2>
 
             <!-- 상품이 있을 때 -->
             <div th:if="${shipments != null && !shipments.isEmpty()}">
-                <table border="1" class="input--table">
+                <table class="input--table">
                     <colgroup>
                         <col class="col1">
                         <col class="col2">
                         <col class="col3">
                         <col class="col4">
+                        <col class="col5">
+                        <col class="col6">
+                        <col class="col7">
                     </colgroup>
                     <thead>
                     <tr>
@@ -58,10 +61,11 @@
                         <th>상품 개수</th>
                         <th>상품 가격</th>
                         <th>검토 상태</th>
+                        <th>상품 현황</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="product : ${shipments}">
+                    <tbody th:each="product : ${shipments}">
+                    <tr>
                         <td th:text="${product.id}">주문 번호</td>
                         <td th:text="${product.oid}">상품 번호</td>
                         <td th:text="${product.name}">상품 이름</td>
@@ -69,6 +73,7 @@
                         <td th:text="${product.price}">상품 가격</td>
                         <td th:text="${product.status}">검토 상태</td>
                         <td>
+                            <!-- 배송 중, 완료 버튼 -->
                             <form th:action="@{/shipments/updateStatus}" method="post" style="display:inline;">
                                 <input type="hidden" name="id" th:value="${product.id}">
                                 <input type="hidden" name="status" value="배송 중">
@@ -79,7 +84,8 @@
                                 <input type="hidden" name="status" value="배송 완료">
                                 <button type="submit" class="btn btn-success">배송 완료</button>
                             </form>
-                            <a class="btn btn-danger" th:href="@{/shipments/delete/{id}(id=${product.id})}">Delete</a>
+                            <!-- 삭제 버튼 -->
+                            <a class="btn btn-danger" th:href="@{/shipments/delete/{id}(id=${product.id})}">삭제</a>
                         </td>
                     </tr>
                     </tbody>
@@ -88,9 +94,8 @@
 
             <!-- 등록된 상품이 없을 때 -->
             <div th:if="${shipments == null || shipments.isEmpty()}">
-                <p>등록된 상품이 없습니다.</p>
-                <button type="button" onclick="location.href='/add-product'" class="btn btn-dark update--button">상품 등록
-                </button>
+                <p class="no-products">등록된 상품이 없습니다.</p>
+                <button type="button" onclick="location.href='/add-product'" class="update--button">상품 등록</button>
             </div>
         </div>
 

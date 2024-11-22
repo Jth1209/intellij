@@ -88,11 +88,12 @@ public class BoardController {
         BoardDto board = boardService.selectBoardDetail(boardIdx);
         EntityManager em = emf.createEntityManager();
         List<Comment> com = em.createQuery("select c from Comment c", Comment.class).getResultList();
+        com.forEach(comment -> comment.setContent(comment.getContent().replace("\n", "<br>")));
         com.removeIf(comments -> !comments.getBoard().getBoardIdx().equals(boardIdx));
         AuthInfo auth = (AuthInfo) session.getAttribute("authInfo");
         model.addAttribute("board", board);
         model.addAttribute("comments", com);
-        model.addAttribute("uname", auth.getName());
+        model.addAttribute("uname", auth.getNick());
         em.close();
         return "/info/board/boardDetail";
     }

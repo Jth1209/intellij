@@ -27,7 +27,7 @@ public interface OrderMapper {
 
     void updateOrder(OrderDto order) throws Exception;
 
-    void deleteOrder(int orderIdx) throws Exception;
+    void deleteOrder(Long orderIdx) throws Exception;
 
     void insertOrderFileList(List<OrderFileDto> list) throws Exception;
 
