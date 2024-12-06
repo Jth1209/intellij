@@ -97,7 +97,7 @@
         <div class="split--div"></div>
             <form th:action="@{/login}" th:object="${loginCommand}" method="post" class="login-form">
                 <input type="hidden" th:field="*{rememberEmail}" />
-                <div class="text-danger" th:if="${#fields.hasErrors('rememberEmail') and !(#fields.hasErrors('email') and #fields.hasErrors('password'))}" th:each="error : ${#fields.errors('rememberEmail')}" th:text="${error}"></div>
+                <div class="text-danger" th:if="${#fields.hasErrors('rememberEmail') and !(#fields.hasErrors('email') or #fields.hasErrors('password'))}" th:each="error : ${#fields.errors('rememberEmail')}" th:text="${error}"></div>
                 <!-- 이메일 입력 -->
                 <div class="mb-3">
                     <label for="email" class="form-label">

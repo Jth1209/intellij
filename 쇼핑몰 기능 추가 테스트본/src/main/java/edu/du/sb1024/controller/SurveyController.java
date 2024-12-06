@@ -36,7 +36,6 @@ public class SurveyController {
 		AuthInfo auth = (AuthInfo) session.getAttribute("authInfo");
 		String route = "";
 		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
 		//유저 확인 쿼리
 		String q = "select count(a) from AnsweredData a where a.uname like :uname";
 		Long a = em.createQuery(q, Long.class).setParameter("uname",auth.getName()).getSingleResult();//count를 사용할 때는 반환 타입을 무조건 Long으로 해야함(고정된 반환값인 듯?)
@@ -47,8 +46,6 @@ public class SurveyController {
 		}else{
 			route = "redirect:/survey/statistic";
 		}
-		em.getTransaction().commit();
-		em.close();
 		List<Question> questions = createQuestions();
 		for (Question question : questions) {
 			System.out.println(question);
@@ -63,7 +60,6 @@ public class SurveyController {
 		AuthInfo auth = (AuthInfo) session.getAttribute("authInfo");
 		String route = "";
 		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
 		//유저 확인 쿼리
 		String q = "select count(a) from AnsweredData a where a.uname = :uname";
 		Long a = em.createQuery(q, Long.class).setParameter("uname",auth.getName()).getSingleResult();//count를 사용할 때는 반환 타입을 무조건 Long으로 해야함(고정된 반환값인 듯?)
@@ -75,8 +71,6 @@ public class SurveyController {
 		}else{
 			route = "redirect:/survey/already";
 		}
-		em.getTransaction().commit();
-		em.close();
 		return route;
 	}
 
@@ -96,7 +90,6 @@ public class SurveyController {
 		int sum = 0;
 
 		EntityManager em = emf.createEntityManager();
-		em.getTransaction().begin();
 
 		int id = em.createQuery("select a.id from AnsweredData a where a.uname = :uname",Integer.class).setParameter("uname",auth.getName()).getSingleResult();
 		List<Respondent> r = em.createQuery("select r from Respondent r", Respondent.class).getResultList();
@@ -120,9 +113,6 @@ public class SurveyController {
 		double per2 = Math.floor(((double) percentage2 /count) * 100);
 		double totalAge = Math.floor(((double) sum/count));
 
-
-		em.getTransaction().commit();
-		em.close();
 		model.addAttribute("location", location);//설문 조사에 참여한 인원들의 거주 지역
 		model.addAttribute("totalAge", totalAge);//설문조사에 참여한 참가자들의 평균 연령대
 		model.addAttribute("third", want);//하고싶은 말

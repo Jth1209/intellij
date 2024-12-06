@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SampleController {
 
     @GetMapping("/accessDenied")
-    public void accessDenied() {}
+    public void accessDenied() {
+    }
 
     @GetMapping("/all")
-    public void exAll(){
+    public void exAll() {
         log.info("exAll..........");
     }
 
-//    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
-    public void exAdmin(){
+    public void exAdmin() {
         log.info("exAdmin..........");
     }
 
     @GetMapping("/member")
-    public void exMember(){
+    public void exMember() {
         log.info("exMember..........");
     }
 

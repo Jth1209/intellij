@@ -14,6 +14,8 @@ public interface BoardMapper {
 
 	List<BoardDto> selectFiveBoard() throws Exception;
 
+	List<BoardDto> selectBoardListByCnt() throws Exception;
+
 	List<BoardDto> selectBoardListWithKeyword(String keyword) throws Exception;
 
 	List<BoardDto> selectBoardListWithKeywordAndCommon(String keyword , String type) throws Exception;

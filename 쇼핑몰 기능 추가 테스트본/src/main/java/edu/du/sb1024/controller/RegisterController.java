@@ -40,44 +40,16 @@ public class RegisterController {
         model.addAttribute("registerRequest", new RegisterRequest());
         return "/allow/step2";
     }
-//
-//    @GetMapping("/register")
-//    public String handleStep2Get() {
-//        return "step2";
-//    }
 
     @PostMapping("/register/step3")
-    public String handleStep3(@Valid RegisterRequest regReq,Errors errors) {
+    public String handleStep3(@Valid RegisterRequest regReq, Errors errors) {
 
-        if(errors.hasErrors()) {
+        if (errors.hasErrors()) {
             return "/allow/step2";
         }
 
         memberRegisterService.regist(regReq);
 
-//        String route = "";
-//        int count = memberRegisterService.checkEmail(regReq.getEmail());
-//        if (count == 1) {
-//            route = "redirect:/register/alreadyHave ";
-//        } else {
-//            if (regReq.getPassword().equals(regReq.getConfirmPassword())) {
-//                memberRegisterService.regist(regReq);
-//                route = "register/step3";
-//            }else{
-//                route = "redirect:/register/passwordError";
-//            }
-//        }
         return "redirect:/login";
     }
-//
-//    @GetMapping("/register/alreadyHave")
-//    public String handleStep3Get() {
-//        return "register/alreadyHave";
-//    }
-//
-//    @GetMapping("/register/passwordError")
-//    public String handleStep4Get() {
-//        return "register/passwordDenied";
-//    }
-
 }

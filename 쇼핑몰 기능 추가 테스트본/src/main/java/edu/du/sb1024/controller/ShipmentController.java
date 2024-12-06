@@ -50,11 +50,11 @@ public class ShipmentController {
         shipmentService.deleteShipment(id);
     }
 
-    @GetMapping("/new")
-    public String newShipmentForm(Model model) {
-        model.addAttribute("shipment", new Shipment());
-        return "/shipments/shipmentForm";
-    }
+//    @GetMapping("/new")
+//    public String newShipmentForm(Model model) {
+//        model.addAttribute("shipment", new Shipment());
+//        return "/shipments/shipmentForm";
+//    }
 
     @PostMapping("/save")
     public String saveShipment(@ModelAttribute Shipment shipment) {

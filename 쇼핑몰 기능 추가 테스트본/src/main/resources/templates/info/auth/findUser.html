@@ -93,7 +93,7 @@
         <div class="split--div"></div>
         <form th:action="@{/login/findPassword}" th:object="${user}" method="post" class="password-recovery-form">
             <input type="hidden" th:field="*{errorCheck}" />
-            <div th:if="${#fields.hasErrors('errorCheck') and !(#fields.hasErrors('username') and #fields.hasErrors('email'))}" th:each="error : ${#fields.errors('errorCheck')}" th:text="${error}" class="text-danger"></div>
+            <div th:if="${#fields.hasErrors('errorCheck') and !(#fields.hasErrors('username') or #fields.hasErrors('email'))}" th:each="error : ${#fields.errors('errorCheck')}" th:text="${error}" class="text-danger"></div>
             <!-- 사용자 이름 입력 -->
             <div class="mb-3">
                 <label for="username" class="form-label">

@@ -50,6 +50,7 @@ public class OrderController {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.getDefault());
         model.addAttribute("orders", orders);
         model.addAttribute("id",authInfo.getId());
+        em.close();
         return "/info/order/order";
     }
 

@@ -93,6 +93,13 @@ public class BoardServiceImpl implements BoardService {
                     list = boardMapper.selectBoardListWithKeywordAndInfo(keyword, type);
                 }
                 break;
+            case "cnt":
+                if (keyword.equals("no")) {
+                    list = boardMapper.selectBoardListByCnt();
+                } else {
+                    list = boardMapper.selectBoardListByCnt();
+                }
+                break;
         }
         return list;
     }

@@ -1,5 +1,6 @@
 package edu.du.sb1024.controller;
 
+import edu.du.sb1024.entity.Comment;
 import edu.du.sb1024.entity.Member;
 import edu.du.sb1024.entity.Shipment;
 import edu.du.sb1024.event.OrderEventPublisher;
@@ -45,10 +46,28 @@ public class AdminController {
         em.getTransaction().begin();
         Member member = em.find(Member.class, id);
         if (member != null) {
-            Shipment shipment = em.createQuery("select s from Shipment s where s.member = :member", Shipment.class).setParameter("member",member).getSingleResult();
-            log.info(String.valueOf(shipment.getMember().getId()));
-            oep.adminSideEvent(shipment);
-            em.remove(shipment);
+            List<Shipment> shipment = em.createQuery("select s from Shipment s where s.member = :member", Shipment.class).setParameter("member", member).getResultList();
+            List<Comment> cs = em.createQuery("select c from Comment c where c.nick = :nick", Comment.class).setParameter("nick", member.getNick()).getResultList();
+            if (shipment != null && cs != null) {
+                for (Shipment ship : shipment) {
+                    oep.adminSideEvent(ship);
+                    em.remove(ship);
+                }
+                for (Comment c : cs) {
+                    em.remove(c);
+                }
+            }
+            if (shipment != null && cs == null) {
+                for (Shipment ship : shipment) {
+                    oep.adminSideEvent(ship);
+                    em.remove(ship);
+                }
+            }
+            if (shipment == null && cs != null) {
+                for (Comment c : cs) {
+                    em.remove(c);
+                }
+            }
             em.remove(member);
         }
         em.getTransaction().commit();

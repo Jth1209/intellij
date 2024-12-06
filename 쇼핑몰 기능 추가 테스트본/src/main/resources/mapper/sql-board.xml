@@ -14,6 +14,18 @@
         ]]>
 	</select>
 
+    <select id="selectBoardListByCnt" resultType="edu.du.sb1024.entity.BoardDto">
+		<![CDATA[
+        SELECT board_idx,
+               title,
+               hit_cnt,
+               creator_id
+        FROM t_board
+        WHERE deleted_yn = 'N'
+        ORDER BY hit_cnt DESC
+        ]]>
+	</select>
+
     <select id="selectBoardListWithKeyword" parameterType="string" resultType="edu.du.sb1024.entity.BoardDto"><!--검색만 했을 때 -->
 		<![CDATA[
         SELECT board_idx,
